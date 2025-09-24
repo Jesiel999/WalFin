@@ -9,7 +9,7 @@ use Exception;
 
 class CatController extends Controller
 {
-       public function exibir()
+    public function exibir()
     {
         $categorias = Categoria::where('cat_codclie', request()->cookie('user_id'))
             ->orderBy('cat_codigo', 'asc')
@@ -20,26 +20,8 @@ class CatController extends Controller
 
 
    
-      public function store(Request $request)
+    public function store(Request $request)
     {
-        
-        $validator = Validator::make($request->all(), [
-            'cat_codclie'   => 'nullable|integer',
-            'cat_nome'      => 'required|string|max:45',   
-            'cat_icone'     => 'required|string|max:20',   
-        ],[
-            'required' => 'O campo :attribute é obrigatório.',
-            'string'   => 'O campo :attribute deve ser um texto.',
-            'max'      => 'O campo :attribute não pode exceder :max caracteres.',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         try {
             Categoria::create([
                 'cat_codclie'   => $request->cookie('user_id'),
@@ -58,6 +40,7 @@ class CatController extends Controller
                 ->withInput();
         }
     }
+
     public function update(Request $request, $cat_codigo)
     {
         $categorias = Categoria::findOrFail($cat_codigo);

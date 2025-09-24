@@ -1,0 +1,240 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Movimento;
+use App\Models\Categoria;
+use App\Models\CondPagamento;
+use App\Models\Parcela;
+use Exception;
+
+class MovController extends Controller
+{
+    public function create()
+    {
+        return view('mov.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'movb_codclie'      => 'nullable|integer',
+            'movb_codigo'       => 'nullable|integer',
+            'movb_valortotal'   => 'nullable|numeric',
+            'movb_valorliquido' => 'nullable|numeric',
+            'movb_situacao'     => 'nullable|string',
+            'movb_categoria'    => 'nullable|numeric',
+            'movb_cpfpj'        => 'nullable|numeric',
+            'movb_pessoa'       => 'nullable|string',
+            'movb_observ'       => 'nullable|string',
+            'movb_datavenc'     => 'nullable|date',
+            'movb_databaixa'    => 'nullable|date',
+            'movb_dataes'       => 'nullable|date',
+            'movb_forma'        => 'nullable|numeric',
+            'movb_natureza'     => 'nullable|string',
+        ], [
+            'required' => 'O campo :attribute é obrigatório.',
+            'integer'  => 'O campo :attribute deve ser um número inteiro.',
+            'numeric'  => 'O campo :attribute deve ser numérico.',
+            'date'     => 'O campo :attribute deve estar em formato válido (YYYY-MM-DD).',
+            'string'   => 'O campo :attribute deve ser um texto.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $condicao = CondPagamento::where('copa_codigo', $request->movb_forma)->first();
+
+            if (!$condicao) {
+                throw new \Exception("Condição de pagamento inválida.");
+            }
+
+            $movimento = Movimento::create([
+                'movb_codclie'      => $request->cookie('user_id'),
+                'movb_codigo'       => $request->movb_codigo,
+                'movb_valortotal'   => $request->movb_valortotal,
+                'movb_valorliquido' => $request->movb_valorliquido,
+                'movb_situacao'     => $request->movb_situacao,
+                'movb_categoria'    => $request->movb_categoria,
+                'movb_cpfpj'        => $request->movb_cpfpj,
+                'movb_pessoa'       => $request->movb_pessoa,
+                'movb_observ'       => $request->movb_observ,
+                'movb_datavenc'     => $request->movb_datavenc,
+                'movb_databaixa'    => $request->movb_databaixa,
+                'movb_dataes'       => now(), 
+                'movb_forma'        => $request->movb_forma,
+                'movb_natureza'     => $request->movb_natureza,
+            ]);
+
+            if ($condicao->copa_tipo === 'A prazo' && $condicao->copa_parcelas > 1) {
+                $valorParcela   = $request->movb_valortotal / $condicao->copa_parcelas;
+                $dataVencimento = \Carbon\Carbon::parse($request->movb_datavenc);
+
+                for ($i = 1; $i <= $condicao->copa_parcelas; $i++) {
+                    Parcela::create([
+                        'par_codclie'   => $request->cookie('user_id'), 
+                        'par_codigo'    => $movimento->id,        
+                        'par_codigomov' => $movimento->movb_codigo,  
+                        'par_valor'     => $valorParcela,
+                        'par_numero'    => $i,
+                        'par_qtnumero'  => $condicao->copa_parcelas,
+                        'par_datavenc'  => $dataVencimento->copy()->addDays($condicao->copa_intervalo * ($i - 1)),
+                        'par_databaixa' => null,
+                        'par_situacao'  => 'Pendente',
+                    ]);
+                }
+            }
+
+            return redirect()
+                ->route('extrato')
+                ->with('success', 'Movimento cadastrado com sucesso!');
+
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Erro ao salvar o movimento: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function exibir(Request $request) 
+    {
+    $userId = $request->cookie('user_id');
+
+    $query = Movimento::with('categoria', 'condpagamento')
+        ->where('movb_codclie', $userId);
+
+    if ($request->filled('categoria')) {
+        $query->where('movb_categoria', $request->categoria);
+    }
+
+    if ($request->filled('natureza')) {
+        $query->where('movb_natureza', $request->natureza);
+    }
+
+    if ($request->filled('situacao')) {
+        $query->where('movb_situacao', $request->situacao);
+    }
+
+    if ($request->filled('data_inicio') && $request->filled('data_fim')) {
+        $query->whereBetween('movb_databaixa', [$request->data_inicio, $request->data_fim]);
+    } elseif ($request->filled('data_inicio')) {
+        $query->whereDate('movb_databaixa', '>=', $request->data_inicio);
+    } elseif ($request->filled('data_fim')) {
+        $query->whereDate('movb_databaixa', '<=', $request->data_fim);
+    }
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('movb_pessoa', 'like', "%{$search}%")
+              ->orWhere('movb_observ', 'like', "%{$search}%");
+        });
+    }
+
+    $movimentos = $query->orderBy('movb_dataes', 'desc')->paginate(15);
+
+    $categorias = Categoria::where('cat_codclie', $userId)
+        ->orderBy('cat_codigo', 'asc')
+        ->get();
+
+    $cond_pagamento = CondPagamento::where('copa_codclie', $userId)
+        ->orderBy('copa_codigo', 'asc')
+        ->get();
+
+    return view('pages.extrato', compact('movimentos', 'categorias', 'cond_pagamento'));
+    }
+
+    public function parcelamento(Request $request, $movb_codigo)
+    {
+        $movimento = Movimento::findOrFail($movb_codigo);
+        $userId = $request->cookie('user_id');
+
+        $parcelas = Parcela::where('par_codclie', $userId)
+            ->where('par_codigomov', $movb_codigo) 
+            ->orderBy('par_numero', 'asc')
+            ->get();
+
+        return response()->json([
+            'movimento' => $movimento,
+            'parcelas' => $parcelas
+        ]);
+    }
+    public function edit(Request $request, $movb_codigo)
+    {
+        $movimento = Movimento::findOrFail($movb_codigo);
+        $categorias = Categoria::orderBy('cat_codigo', 'desc')->get();
+        $cond_pagamento = CondPagamento::orderBy('copa_codigo', 'desc')->get();
+
+        return view('pages.extrato', compact('movimento', 'categorias', 'cond_pagamento'));
+    }
+
+    public function update(Request $request, $movb_codigo)
+    {     
+        try {
+            $condicao = CondPagamento::where('copa_codigo', $request->movb_forma)->first();
+
+            if (!$condicao) {
+                throw new \Exception("Condição de pagamento inválida.");
+            }
+
+            $movimento = Movimento::findOrFail($movb_codigo);
+
+            if (!empty($request->movb_databaixa)) {
+                $request->merge(['movb_situacao' => 'Pago']);
+            }
+
+            $movimento->update($request->all());
+
+            if ($condicao->copa_tipo === 'A prazo' && $condicao->copa_parcelas > 1) {
+                $valorParcela   = $request->movb_valortotal / $condicao->copa_parcelas;
+                $dataVencimento = \Carbon\Carbon::parse($request->movb_datavenc);
+
+                Parcela::where('par_codigomov', $movimento->movb_codigo)->delete();
+
+                for ($i = 1; $i <= $condicao->copa_parcelas; $i++) {
+                    Parcela::create([
+                        'par_codclie'   => $request->cookie('user_id'), 
+                        'par_codigo'    => $movimento->id,        
+                        'par_codigomov' => $movimento->movb_codigo,  
+                        'par_valor'     => $valorParcela,
+                        'par_numero'    => $i,
+                        'par_qtnumero'  => $condicao->copa_parcelas,
+                        'par_datavenc'  => $dataVencimento->copy()->addDays($condicao->copa_intervalo * ($i - 1)),
+                        'par_databaixa' => null,
+                        'par_situacao'  => 'Pendente',
+                    ]);
+                }
+            }
+
+            return redirect()
+                ->route('extrato')
+                ->with('success', 'Movimento cadastrado com sucesso!');
+
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Erro ao salvar o movimento: ' . $e->getMessage())
+                ->withInput();
+        }
+
+        return redirect()->route('extrato')->with('success', 'Movimento atualizado com sucesso!');
+    }
+
+    public function destroy($movb_codigo)
+    {
+        $movimento = Movimento::findOrFail($movb_codigo);
+        $parcela = Parcela::where('par_codigomov', $movb_codigo);
+        $movimento->delete();
+        $parcela->delete();
+
+        return redirect()->route('extrato')->with('success', 'Movimento excluído com sucesso!');
+    }
+}

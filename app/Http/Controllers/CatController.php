@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CatRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Categoria;
@@ -17,23 +19,21 @@ class CatController extends Controller
 
         return view('pages.categorias', compact('categorias'));
     }
-
-
    
-    public function store(Request $request)
-    {
+    public function store(CatRequest $request)
+    {       
         try {
-            Categoria::create([
-                'cat_codclie'   => $request->cookie('user_id'),
-                'cat_nome'      => $request->cat_nome,
-                'cat_icone'     => $request->cat_icone,
-            ]);
+            $dados = $request->validated();
+
+            $dados['cat_codclie'] = $request->cookie('user_id');
+
+            Categoria::create($dados);
 
             return redirect()
                 ->route('categorias')
                 ->with('success', 'Categoria cadastrada com sucesso!');
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect()
                 ->back()
                 ->with('error', 'Erro ao salvar categoria: ' . $e->getMessage())
@@ -48,6 +48,7 @@ class CatController extends Controller
 
         return redirect()->route('categorias')->with('success', 'Categoria atualizada com sucesso !');
     }
+    
     public function destroy($cat_codigo)
     {
         $categorias = Categoria::findOrFail($cat_codigo);

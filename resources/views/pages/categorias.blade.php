@@ -29,7 +29,10 @@
                     <div class="flex space-x-2">
                         <button type="button"
                             class="categoria-edit p-2 bg-white border rounded-full hover:bg-gray-200"
-                            data-id="{{ $categoria->cat_codigo }}">
+                            data-id="{{ $categoria->cat_codigo }}"
+                            data-nome="{{ $categoria->cat_nome }}"
+                            data-icone="{{ $categoria->cat_icone }}"
+                        >
                             <i class="fas fa-pen text-sm md:text-base"></i>
                         </button>
                         <button type="button"

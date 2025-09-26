@@ -26,11 +26,22 @@ document.addEventListener('DOMContentLoaded', function() {
     /* Modal Editar */
     document.querySelectorAll('.categoria-edit').forEach(btn => {
         btn.addEventListener('click', function() {
-            document.querySelector('#categoria-edit-modal input[name="cat_codigo"]').value = this.dataset.id;
-            document.querySelector('#categoria-edit-modal input[name="cat_nome"]').value = this.dataset.nome;
-            document.querySelector('#categoria-edit-modal input[name="cat_icone"]').value = this.dataset.icone;
-            document.querySelector('#categoria-edit-modal form').action = `/categorias/${this.dataset.id}`;
-            document.getElementById('categoria-edit-modal').classList.remove('hidden');
+
+            const modal = document.getElementById('categoria-edit-modal');
+            const iconeAtual = this.dataset.icone;
+
+            modal.querySelector('#categoria-edit-modal input[name="cat_codigo"]').value = this.dataset.id;
+            modal.querySelector('#categoria-edit-modal input[name="cat_nome"]').value = this.dataset.nome;
+            modal.querySelector('#categoria-edit-modal input[name="cat_icone"]').value = this.dataset.icone;
+            modal.querySelector('#categoria-edit-modal form').action = `/categorias/${this.dataset.id}`;
+            
+            const btnSelecionado = modal.querySelector(`[data-icone="${iconeAtual}"]`);
+            if (btnSelecionado) {
+                btnSelecionado.style.border = '2px solid #4f46e5'; // Indigo-600
+                btnSelecionado.style.backgroundColor = '#e0e7ff'; // Indigo-100
+            }
+
+            modal.classList.remove('hidden');
         });
     });
     document.getElementById('close-categoria-edit').addEventListener('click', () => {
@@ -39,6 +50,20 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('cancel-categoria-edit').addEventListener('click', () => {
         document.getElementById('categoria-edit-modal').classList.add('hidden');
     });
+
+
+    document.querySelectorAll('#categoria-edit-modal [data-icone]').forEach (btn => {
+        btn.addEventListener('click', function () {
+
+            document.querySelectorAll('#categoria-edit-modal [data-icone]').forEach (b => {
+                b.style.border = '1px solid #d1d5db';
+                b.style.backgroundColor = '';
+            });
+
+
+            document.querySelectorAll('#categoria-edit-modal input[name="cat_icone"]').value = this.dataset.icone;
+        });
+    })
 
     /* Modal Excluir */
     document.querySelectorAll('.categoria-exclui').forEach(btn => {

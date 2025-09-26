@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CondPagamentoRequest;
 use Illuminate\Http\Request;
 use App\Models\CondPagamento;
 use Illuminate\Support\Facades\Validator;
@@ -15,40 +16,24 @@ class CondPagamentoController extends Controller
         return view ('CondPagamento.create');
     }
 
-    public function store(Request $request)
+    public function store(CondPagamentoRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'copa_codclie'   => 'nullable|integer',
-            'copa_nome'      => 'required|string|max:255',
-            'copa_desc'      => 'nullable|string',
-            'copa_tipo'      => 'required|string', 
-            'copa_intervalo' => 'nullable|integer',
-            'copa_parcelas'  => 'nullable|integer',
-            'copa_status'    => 'nullable|integer|max:1',
-        ], [
-            'required' => 'O campo :attribute é obrigatório.',
-            'integer'  => 'O campo :attribute deve ser um número inteiro.',
-            'string'   => 'O campo :attribute deve ser um texto.',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
         try {
-            CondPagamento::create([
-                'copa_codclie'   => $request->cookie('user_id'),
-                'copa_nome'      => $request->copa_nome,
-                'copa_desc'      => $request->copa_desc,
-                'copa_tipo'      => $request->copa_tipo,
-                'copa_intervalo' => $request->copa_intervalo,
-                'copa_parcelas'  => $request->copa_parcelas,
-                'copa_status'    => $request->copa_status ?? 1,
-            ]);
+            $dados = $request->validated();
 
-            return redirect()->route('condicoesPagamento')->with('success', 'Condição de Pagamento cadastrada com sucesso!');
+            $dados['copa_codclie'] = $request->cookie('user_id');
+
+            CondPagamento::create($dados);
+            
+            return redirect()
+                ->route('condicoesPagamento')
+                ->with('success', 'Condição de Pagamento cadastrada com sucesso!');
+        
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Erro ao cadastrar Condição de Pagamento: ' . $e->getMessage())->withInput();
+            return redirect()
+                ->back()
+                ->with('error', 'Erro ao cadastrar Condição de Pagamento: ' . $e->getMessage())
+                ->withInput();
         }
     }
 

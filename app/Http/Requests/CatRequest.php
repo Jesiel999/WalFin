@@ -12,7 +12,7 @@ class CatRequest extends FormRequest {
     public function rules(): array {
         return [
             'cat_codclie'   => 'nullable|integer',
-            'cat_nome'      => 'required|string|max:45',   
+            'cat_nome'      => 'required|string|max:2',   
             'cat_icone'     => 'required|string|max:20',   
         ];
     }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Meu App')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @yield('extra-scripts')
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/icon.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,11 +18,8 @@
     @include('components.sidebar')
     </aside>
 
-
     <div id="mainContent" class="ml-0 lg:ml-16 flex-1 flex flex-col">
-
         @include('components.header')
-
         <main class="content flex-1 p-6">
             @if (session('errors'))
                 <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
@@ -52,5 +50,10 @@
     </div>
 
     @yield('scripts')
+    @if ($errors->any())
+        <script>
+            document.getElementById('category-modal').classList.remove("hidden");
+        </script>
+    @endif
 </body>
 </html>

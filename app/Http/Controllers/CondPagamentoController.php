@@ -10,11 +10,8 @@ use Exception;
 
 class CondPagamentoController extends Controller
 {
-    public function create()
-    {
-        return view ('CondPagamento.create');
-    }
 
+    // CADASTRO
     public function store(CondPagamentoRequest $request)
     {
         try {
@@ -36,6 +33,7 @@ class CondPagamentoController extends Controller
         }
     }
 
+    // LISTAR
     public function exibir()
     {
         $cond_pagamento = CondPagamento::where('copa_codclie', request()->cookie('user_id'))
@@ -45,6 +43,7 @@ class CondPagamentoController extends Controller
         return view('pages.condicoesPagamento', compact('cond_pagamento'));
     }
 
+    // ALTERAR
     public function update(Request $request, $copa_codigo)
     {
         $cond_pagamento = CondPagamento::findOrFail($copa_codigo);
@@ -52,6 +51,8 @@ class CondPagamentoController extends Controller
 
         return redirect()->route('condicoesPagamento')->with('success', 'Condição de Pagamento atualizada com sucesso !');
     }
+
+    // DELETE
     public function destroy($copa_codigo)
     {
         $cond_pagamento = CondPagamento::findOrFail($copa_codigo);

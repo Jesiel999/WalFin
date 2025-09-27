@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\ParRequest;
 use App\Models\Movimento;
 use App\Models\CondPagamento;
 use App\Models\Categoria;
@@ -11,40 +12,13 @@ use App\Models\Parcela;
 
 class ParController extends Controller
 {
-    public function create()
+    // CADASTRO
+    public function store(ParRequest $request)
     {
-        return view('par.create');
-    }
-
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'par_codclie'   => 'nullable|integer',
-            'par_codigomov'    => 'nullable|integer',
-            'par_valor'    => 'nullable|decimal',
-            'par_numero'    => 'nullable|integer',
-            'par_qtnumero'  => 'nullable|integer',
-            'par_datavenc'  => 'nullable|integer',
-            'par_databaixa' => 'nullable|integer',
-            'par_situacao'  => 'nullable|integer',
-        ],
-        [
-            'required' => 'O campo :attribute é obrigatório.',
-            'integer'  => 'O campo :attribute deve ser um número inteiro.',
-            'numeric'  => 'O campo :attribute deve ser numérico.',
-            'date'     => 'O campo :attribute deve estar em formato válido (YYYY-MM-DD).',
-            'string'   => 'O campo :attribute deve ser um texto.',
-
-        ]);
-
-        if ($validator->fails()) {
-
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
         try {
+
+            $request->validated();
+
             Movimento::create([
                 'par_codclie'       => $request->cookie('user_id'),
                 'par_codigomov'        => $request->par_codigomov,
@@ -69,6 +43,7 @@ class ParController extends Controller
         }
     }
 
+    // LISTAR
     public function exibir() 
     {
         $movimentos = Movimento::with('categoria')
@@ -90,6 +65,8 @@ class ParController extends Controller
 
         return view('pages.extrato', compact('movimentos','categorias','cond_pagamento','parcelas'));
     }
+
+    // ALTERAR
     public function update(Request $request, $par_codigo, $par_codigomov)
     {
         $parcela = Parcela::findOrFail($par_codigo);

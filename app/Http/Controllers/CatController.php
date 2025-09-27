@@ -9,6 +9,7 @@ use Exception;
 
 class CatController extends Controller
 {
+    // LISTAR
     public function exibir()
     {
         $categorias = Categoria::where('cat_codclie', request()->cookie('user_id'))
@@ -18,6 +19,7 @@ class CatController extends Controller
         return view('pages.categorias', compact('categorias'));
     }
    
+    // CADASTRO
     public function store(CatRequest $request)
     {       
         try {
@@ -39,6 +41,7 @@ class CatController extends Controller
         }
     }
 
+    // ALTERAR
     public function update(Request $request, $cat_codigo)
     {
         $categorias = Categoria::findOrFail($cat_codigo);
@@ -47,6 +50,7 @@ class CatController extends Controller
         return redirect()->route('categorias')->with('success', 'Categoria atualizada com sucesso !');
     }
     
+    // DELETE
     public function destroy($cat_codigo)
     {
         $categorias = Categoria::findOrFail($cat_codigo);

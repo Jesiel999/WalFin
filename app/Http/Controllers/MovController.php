@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\MovRequest;
 use App\Models\Movimento;
 use App\Models\Categoria;
 use App\Models\CondPagamento;
@@ -17,39 +17,12 @@ class MovController extends Controller
         return view('mov.create');
     }
 
-    public function store(Request $request)
+    public function store(MovRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'movb_codclie'      => 'nullable|integer',
-            'movb_codigo'       => 'nullable|integer',
-            'movb_valortotal'   => 'nullable|numeric',
-            'movb_valorliquido' => 'nullable|numeric',
-            'movb_situacao'     => 'nullable|string',
-            'movb_categoria'    => 'nullable|numeric',
-            'movb_cpfpj'        => 'nullable|numeric',
-            'movb_pessoa'       => 'nullable|string',
-            'movb_observ'       => 'nullable|string',
-            'movb_datavenc'     => 'nullable|date',
-            'movb_databaixa'    => 'nullable|date',
-            'movb_dataes'       => 'nullable|date',
-            'movb_forma'        => 'nullable|numeric',
-            'movb_natureza'     => 'nullable|string',
-        ], [
-            'required' => 'O campo :attribute é obrigatório.',
-            'integer'  => 'O campo :attribute deve ser um número inteiro.',
-            'numeric'  => 'O campo :attribute deve ser numérico.',
-            'date'     => 'O campo :attribute deve estar em formato válido (YYYY-MM-DD).',
-            'string'   => 'O campo :attribute deve ser um texto.',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         try {
+            
+            $request->validated();
+
             $condicao = CondPagamento::where('copa_codigo', $request->movb_forma)->first();
 
             if (!$condicao) {
@@ -76,7 +49,7 @@ class MovController extends Controller
             if ($condicao->copa_tipo === 'A prazo' && $condicao->copa_parcelas > 1) {
                 $valorParcela   = $request->movb_valortotal / $condicao->copa_parcelas;
                 $dataVencimento = \Carbon\Carbon::parse($request->movb_datavenc);
-
+                
                 for ($i = 1; $i <= $condicao->copa_parcelas; $i++) {
                     Parcela::create([
                         'par_codclie'   => $request->cookie('user_id'), 
@@ -86,8 +59,10 @@ class MovController extends Controller
                         'par_numero'    => $i,
                         'par_qtnumero'  => $condicao->copa_parcelas,
                         'par_datavenc'  => $dataVencimento->copy()->addDays($condicao->copa_intervalo * ($i - 1)),
-                        'par_databaixa' => null,
-                        'par_situacao'  => 'Pendente',
+                        'par_databaixa' => $request->movb_databaixa 
+                                            ? $dataVencimento->copy()->addDays($condicao->copa_intervalo * ($i - 1)) 
+                                            : null,
+                        'par_situacao'  => $request->movb_databaixa ? 'Pago' : 'Pendente',
                     ]);
                 }
             }

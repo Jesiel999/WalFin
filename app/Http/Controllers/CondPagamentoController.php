@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CondPagamentoRequest;
 use Illuminate\Http\Request;
 use App\Models\CondPagamento;
-use Illuminate\Support\Facades\Validator;
 use Exception;
 
 class CondPagamentoController extends Controller

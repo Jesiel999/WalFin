@@ -15,6 +15,7 @@ class MovController extends Controller
     // CADASTRO 
     public function store(MovRequest $request)
     {
+
         try {
             
             $request->validated();

@@ -74,7 +74,7 @@
                             class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
 
-                    <div class="databaixa">
+                    <div>
                         <label class="block text-sm font-medium">Data de Baixa</label>
                         <input type="date" name="movb_databaixa" 
                             class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">

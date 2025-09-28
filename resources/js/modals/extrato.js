@@ -37,10 +37,9 @@ document.querySelectorAll('.edit-transacao-btn').forEach(btn => {
         
         const dateBaixa = document.querySelector('#transacoes-edit input[name="movb_databaixa"]');
         if (this.dataset.parcela >= 2) {
-            dateBaixa.readOnly = true; // bloqueia edição mas mostra valor
-            dateBaixa.classList.add("bg-gray-100", "cursor-not-allowed"); // opcional: estilo visual
+            dateBaixa.readOnly = true;
+            dateBaixa.classList.add("bg-gray-100", "cursor-not-allowed");
         }
-
         document.querySelector('#transacoes-edit form').action = `/extrato/${this.dataset.id}`;
 
         document.getElementById('transacoes-edit').classList.remove('hidden');
@@ -183,6 +182,10 @@ document.getElementById('btn-limpar').addEventListener('click', function () {
     const form = document.getElementById('form-filtros');
     form.reset();
 
+<<<<<<< HEAD
     window.location.href = limpaFiltroExtrato;
+=======
+    window.location.href = "{{ route('extrato') }}";
+>>>>>>> d258f36a904a0dad65c855f7f8f3ec9dc59f68f8
 });
        

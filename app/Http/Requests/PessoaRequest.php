@@ -4,26 +4,24 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ParRequest extends FormRequest
+class PessoaRequest extends FormRequest
 {
+
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
+
     public function rules(): array
     {
         return [
-            'par_codclie'   => 'nullable|integer',
-            'par_codigomov'    => 'nullable|integer',
-            'par_valor'    => 'nullable|decimal',
-            'par_numero'    => 'nullable|integer',
-            'par_qtnumero'  => 'nullable|integer',
-            'par_datavenc'  => 'nullable|integer',
-            'par_databaixa' => 'nullable|integer',
-            'par_situacao'  => 'nullable|integer',
+            "pes_codclie"=> "nullable|integer",
+            "pes_nome"=> "required|string",
+            "pes_cpfpj"=> "required|numeric",
         ];
     }
-    public function messages(): array 
+
+    public function messages(): array
     {
         return [
             'required' => 'O campo :attribute é obrigatório.',

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovController;
 use App\Http\Controllers\CatController;
@@ -40,12 +41,17 @@ Route::middleware(['verifica.login'])->group(function () {
     Route::get('/parcelamento/{movb_codigo}', [MovController::class, 'parcelamento'])->name('parcelamento');
     Route::put('/parcelamento/{movb_codigo}/{movb_codigomov}', [ParController::class, 'update'])->name('updatePar');
 
+    /* Pessoa */
+    Route::get('/pessoa', [PessoaController::class, 'exibir'])->name('pessoa');    
+    Route::post('/pessoa', [PessoaController::class, 'store'])->name('pessoa.store');
+    Route::put('/pessoa/{pes_codigo}', [PessoaController::class,'update'])->name('updatePes');
+    Route::delete('/pessoa/{pes_codigo}', [PessoaController::class, 'destroy'])->name('deletePes');
+    
     /* Categorias */
     Route::get('/categorias', [CatController::class, 'exibir'])->name('categorias');
     Route::post('/categorias', [CatController::class, 'store'])->name('categorias.store');
     Route::put('/categorias/{copa_codigo}', [CatController::class, 'update'])->name('updateCondP');
     Route::delete('/categorias/{copa_codigo}', [CatController::class, 'destroy'])->name('deleteCondP');
-
 
     /* Condições de Pagamento */
     Route::get('/condicoesPagamento', [CondPagamentoController::class, 'exibir'])->name('condicoesPagamento');

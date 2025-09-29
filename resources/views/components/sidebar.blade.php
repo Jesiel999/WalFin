@@ -32,6 +32,12 @@
             </a>
         </li>
         <li class="mb-1">
+            <a href="{{'pessoa'}}" class="flex items-center px-4 py-3 text-white hover:bg-indigo-600 transition nav-item">  
+                <i class="fas fa-users mr-3"></i>
+                <span class="nav-text hidden text-base">Pessoa</span>
+            </a>
+        </li>
+        <li class="mb-1">
             <a href="{{'categorias'}}" class="flex items-center px-4 py-3 text-white hover:bg-indigo-600 transition nav-item">
                 <i class="fas fa-tags mr-3"></i>
                 <span class="nav-text hidden text-base">Categorias</span>

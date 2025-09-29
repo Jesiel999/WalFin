@@ -31,8 +31,7 @@
                             class="categoria-edit p-2 bg-white border rounded-full hover:bg-gray-200"
                             data-id="{{ $categoria->cat_codigo }}"
                             data-nome="{{ $categoria->cat_nome }}"
-                            data-icone="{{ $categoria->cat_icone }}"
-                        >
+                            data-icone="{{ $categoria->cat_icone }}">
                             <i class="fas fa-pen text-sm md:text-base"></i>
                         </button>
                         <button type="button"
@@ -42,6 +41,10 @@
                         </button>
                     </div>
                 </div>
+            @empty
+            <div class="col-span-full text-center py-6 text-gray-500 italic">
+                Nenhuma categoria encontrada
+            </div>  
                 @include ('pages.modals.categoria.add')
                 @include ('pages.modals.categoria.edit')
                 @include ('pages.modals.categoria.delete')

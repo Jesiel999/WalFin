@@ -187,6 +187,3 @@
 <script>
     const limpaFiltroExtrato = "{{ route('extrato') }}";
 </script>
-
-@section('footer')
-@endsection

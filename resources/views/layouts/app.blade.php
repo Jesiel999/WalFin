@@ -53,6 +53,7 @@
     @if ($errors->any())
         <script>
             document.getElementById('category-modal').classList.remove("hidden");
+            document.getElementById('pessoa-modal').classList.remove("hidden");
         </script>
     @endif
 </body>

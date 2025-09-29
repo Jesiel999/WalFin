@@ -182,10 +182,6 @@ document.getElementById('btn-limpar').addEventListener('click', function () {
     const form = document.getElementById('form-filtros');
     form.reset();
 
-<<<<<<< HEAD
     window.location.href = limpaFiltroExtrato;
-=======
-    window.location.href = "{{ route('extrato') }}";
->>>>>>> d258f36a904a0dad65c855f7f8f3ec9dc59f68f8
 });
        

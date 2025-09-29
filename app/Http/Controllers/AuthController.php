@@ -13,6 +13,7 @@ use App\Models\Usuario;
 use App\Models\Categoria;
 use App\Models\Movimento;
 use App\Models\Parcela;
+use App\Models\Pessoa;
 
 class AuthController extends Controller
 {
@@ -184,38 +185,6 @@ class AuthController extends Controller
 
 
     /* Permissoes */
-    public function dashboard()
-    {
-        $userId = Cookie::get('user_id');
-        $userName = Cookie::get('user_name');
-
-        return view('pages.dashboard', compact('userId', 'userName'));
-    }
-
-    public function extrato()
-    {
-        $userId = Cookie::get('user_id');
-        $userName = Cookie::get('user_name');
-
-        return view('pages.extrato', compact('userId', 'userName'));
-    }
-
-    public function categorias()
-    {
-        $userId = Cookie::get('user_id');
-        $userName = Cookie::get('user_name');
-
-        return view('pages.categorias', compact('userId', 'userName'));
-    }
-
-    public function condicoesPagamento()
-    {
-        $userId = Cookie::get('user_id');
-        $userName = Cookie::get('user_name');
-
-        return view('pages.condicoesPagamento', compact('userId', 'userName'));
-    }
-    
     public function usuario()
     {
         $userId = Cookie::get('user_id');
@@ -223,7 +192,7 @@ class AuthController extends Controller
 
         $usuario = Usuario::where('usua_codigo', $userId)->first();
 
-         $userEmail = $usuario ? $usuario->usua_email : null;
+        $userEmail = $usuario ? $usuario->usua_email : null;
         $userFone  = $usuario ? $this->formatTelefone($usuario->usua_telefone) : null;
         $userCpfpj = $usuario ? $this->formatCpfCnpj($usuario->usua_cpfpj) : null;
 

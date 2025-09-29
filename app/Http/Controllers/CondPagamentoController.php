@@ -49,7 +49,9 @@ class CondPagamentoController extends Controller
         $cond_pagamento = CondPagamento::findOrFail($copa_codigo);
         $cond_pagamento->update($request->all());
 
-        return redirect()->route('condicoesPagamento')->with('success', 'Condição de Pagamento atualizada com sucesso !');
+        return redirect()
+            ->route('condicoesPagamento')
+            ->with('success', 'Condição de Pagamento atualizada com sucesso !');
     }
 
     // DELETE
@@ -58,6 +60,8 @@ class CondPagamentoController extends Controller
         $cond_pagamento = CondPagamento::findOrFail($copa_codigo);
         $cond_pagamento->delete();
 
-        return redirect()->route('condicoesPagamento')->with('success', 'Condição de Pagamento excluída com sucesso');
+        return redirect()
+            ->route('condicoesPagamento')
+            ->with('success', 'Condição de Pagamento excluída com sucesso !');
     }
 }

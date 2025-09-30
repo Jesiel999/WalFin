@@ -16,6 +16,9 @@ class pessoa extends Model
         "pes_codclie",
         "pes_nome",
         "pes_cpfpj",
+        "pes_email",
+        "pes_telefone",
+        "pes_observacao",
     ];
 
     public function pessoa()

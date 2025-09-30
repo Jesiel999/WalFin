@@ -28,6 +28,35 @@
                 @enderror
             </div>
 
+            <div class="mb-4">
+                <label for="pes_email" class="block text-gray-700 text-sm font-bold mb-2">E-mail</label>
+                <input type="text" name="pes_email" id="pes_email" value="{{ old('pes_email') }}"
+                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required>
+                @error('pes_email')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="pes_telefone" class="block text-gray-700 text-sm font-bold mb-2">Telefone</label>
+                <input type="text" name="pes_telefone" id="pes_telefone" value="{{ old('pes_telefone') }}"
+                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required>
+                @error('pes_telefone')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            
+            <div class="mb-4">
+                <label for="pes_observacao" class="block text-gray-700 text-sm font-bold mb-2">Observação</label>
+                <textarea type="text" name="pes_observacao" id="pes_observacao" value="{{ old('pes_observacao') }}"
+                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                @error('pes_observacao')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div class="flex justify-end space-x-3">
                 <button type="button" id="cancel-pessoa" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-100">Cancelar</button>
                 <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Salvar</button>

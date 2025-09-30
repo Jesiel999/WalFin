@@ -25,7 +25,7 @@ class PessoaController extends Controller
         } catch(\Exception $e) {
             return redirect()
                 ->back()
-                ->with('errors', 'Erro ao salvar Pessoa: ' . $e->getMessage())
+                ->with('error', 'Erro ao salvar Pessoa: ' . $e->getMessage())
                 ->withInput();
         }
     }

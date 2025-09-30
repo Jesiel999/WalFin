@@ -14,18 +14,18 @@ class MovRequest extends FormRequest {
         return [
             'movb_codclie'      => 'nullable|integer',
             'movb_codigo'       => 'nullable|integer',
-            'movb_valortotal'   => 'nullable|numeric',
-            'movb_valorliquido' => 'nullable|numeric',
-            'movb_situacao'     => 'nullable|string',
-            'movb_categoria'    => 'nullable|numeric',
+            'movb_valortotal'   => 'required|numeric',
+            'movb_valorliquido' => 'required|numeric',
+            'movb_situacao'     => 'required|string',
+            'movb_categoria'    => 'required|numeric',
             'movb_cpfpj'        => 'nullable|numeric',
             'movb_pessoa'       => 'nullable|string',
             'movb_observ'       => 'nullable|string',
             'movb_datavenc'     => 'nullable|date',
             'movb_databaixa'    => 'nullable|date',
             'movb_dataes'       => 'nullable|date',
-            'movb_forma'        => 'nullable|numeric',
-            'movb_natureza'     => 'nullable|string',
+            'movb_forma'        => 'required|numeric',
+            'movb_natureza'     => 'required|string',
         ] ;
     }
 

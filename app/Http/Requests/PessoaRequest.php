@@ -18,6 +18,9 @@ class PessoaRequest extends FormRequest
             "pes_codclie"=> "nullable|integer",
             "pes_nome"=> "required|string",
             "pes_cpfpj"=> "required|numeric",
+            "pes_email"=> "nullable|email",
+            "pes_telefone"=> "nullable|integer|digits_between:10,11",
+            "pes_observacao"=> "nullable|string", 
         ];
     }
 
@@ -29,6 +32,8 @@ class PessoaRequest extends FormRequest
             'numeric'  => 'O campo :attribute deve ser numérico.',
             'date'     => 'O campo :attribute deve estar em formato válido (YYYY-MM-DD).',
             'string'   => 'O campo :attribute deve ser um texto.',
+            'unique'   => 'O :attribute já está cadastrado.',
+            'digits_between' => 'O campo :attribute deve ter entre :min e :max dígitos.',
         ];
     }
 }

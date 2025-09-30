@@ -28,7 +28,10 @@
                         class="pessoa-edit p-2 bg-white border rounded-full hover:bg-gray-200"
                         data-id="{{$pessoa->pes_codigo}}"
                         data-nome="{{$pessoa->pes_nome}}"
-                        data-cpfpj="{{$pessoa->pes_cpfpj}}">
+                        data-cpfpj="{{$pessoa->pes_cpfpj}}"
+                        data-email="{{$pessoa->pes_email}}"
+                        data-telefone="{{$pessoa->pes_telefone}}"
+                        data-observacao="{{$pessoa->pes_observacao}}">
                         <i class="fas fa-pen"></i>
                     </button>
                     <button type="button"

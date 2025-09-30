@@ -14,6 +14,9 @@ return new class extends Migration
             $table->integer('pes_codclie');
             $table->string('pes_nome');
             $table->string('pes_cpfpj', 20);
+            $table->string('pes_email');
+            $table->integer('pes_telefone');
+            $table->string('pes_observacao');
         });
     }
 

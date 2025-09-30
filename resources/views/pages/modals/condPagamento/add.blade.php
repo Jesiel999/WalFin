@@ -14,7 +14,9 @@
                 <label for="nome" class="block font-medium mb-1">Nome*</label>
                 <input type="text" name="copa_nome" id="copa_nome" required
                     class="w-full border rounded px-3 py-2" value="{{ old('copa_nome') }}">
-                @error('nome') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+                @error('nome') 
+                    <p class="text-red-600 text-sm">{{ $message }}</p> 
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -24,7 +26,9 @@
                     <option value="A vista" {{ old('copa_tipo', 'A vista') == 'A vista' ? 'selected' : '' }}>A vista</option>
                     <option value="A prazo" {{ old('copa_tipo') == 'A prazo' ? 'selected' : '' }}>A prazo</option>
                 </select>
-                @error('copa_tipo') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+                @error('copa_tipo') 
+                    <p class="text-red-600 text-sm">{{ $message }}</p> 
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -33,7 +37,9 @@
                     class="w-full border rounded px-3 py-2"
                     value="{{ old('copa_parcelas') }}"
                     {{ old('copa_tipo', 'A vista') != 'A prazo' ? 'disabled' : '' }}>
-                @error('numero_parcelas') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+                @error('numero_parcelas') 
+                    <p class="text-red-600 text-sm">{{ $message }}</p> 
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -42,7 +48,9 @@
                     class="w-full border rounded px-3 py-2"
                     value="{{ old('copa_intervalo') }}"
                     {{ old('copa_tipo', 'A vista') != 'A prazo' ? 'disabled' : '' }}>
-                @error('intervalo_dias') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+                @error('intervalo_dias')
+                    <p class="text-red-600 text-sm">{{ $message }}</p> 
+                @enderror
             </div>
 
             

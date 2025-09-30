@@ -9,7 +9,7 @@
             @csrf
             @method('DELETE')
             <p class="text-gray-700 text-lg font-bold mb-4">Você realmente deseja excluir esta pessoa?</p>
-                            <input name="pes_codigo">
+            
             <div class="flex justify-end space-x-3 mt-4">
                 <button type="button" id="cancel-pessoa-exclui" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-100">Cancelar</button>
                 <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Confirmar</button>

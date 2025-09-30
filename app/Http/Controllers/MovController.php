@@ -77,7 +77,7 @@ class MovController extends Controller
     }
 
     // LISTAR EXTRATO
-    public function exibir(MovRequest $request) 
+    public function exibir(Request $request) 
     {
     $userId = $request->cookie('user_id');
     

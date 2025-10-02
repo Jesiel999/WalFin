@@ -86,9 +86,6 @@
                             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 max-h-[10vh] overflow-y-auto">
                         </div>
                     </div>
-                </div>                        
-
-                <div>
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Data de Vencimento</label>
                         <input type="date" name="movb_datavenc" 
@@ -100,16 +97,37 @@
                         <input type="date" name="movb_databaixa" 
                             class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
+                </div>                        
 
+                <div>
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Forma</label>
-                        <select name="movb_forma" class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" >
+                        <select name="movb_forma" id="movb_forma" class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" >
                             <option value="">Selecione</option>
                             @foreach($cond_pagamento as $cond)
                                 <option value="{{ $cond->copa_codigo }}">{{ $cond->copa_nome }}</option>
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="hidden" id="parcelasExtrato">
+                        <label class="block text-sm font-medium mb-2">Quantidade parcelas</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <label class="flex items-center space-x-2 border rounded-lg px-2 py-1 cursor-pointer hover:bg-indigo-100">
+                                <input type="radio" name="movb_parcelas" value="0"
+                                    {{ old('movb_parcelas', $mov->movb_parcelas ?? '') == 0 ? 'checked' : '' }}>
+                                <span>À vista</span>
+                            </label>
+                            @for ($i = 2; $i <= 24; $i++)
+                                <label class="flex items-center space-x-2 border rounded-lg px-2 py-1 cursor-pointer hover:bg-indigo-100">
+                                    <input type="radio" name="movb_parcelas" value="{{ $i }}"
+                                        {{ old('movb_parcelas', $mov->movb_parcelas ?? '') == $i ? 'checked' : '' }}>
+                                    <span>{{ $i }}x</span>
+                                </label>
+                            @endfor
+                        </div>
+                    </div>
+
 
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Natureza</label>

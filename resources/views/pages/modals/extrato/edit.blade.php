@@ -62,9 +62,6 @@
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Investimento</label>
                         <input type="text" name="info_extra" class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
-                </div>
-
-                <div>
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Data de Vencimento</label>
                         <input type="date" name="movb_datavenc" 
@@ -76,13 +73,9 @@
                         <input type="date" name="movb_databaixa" 
                             class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
+                </div>
 
-                    <div class="hidden">
-                        <label class="block text-sm font-medium">Qt parcelas</label>
-                        <input type="text" name="copa_parcelas" 
-                            class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-
+                <div>
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Forma</label>
                         <select name="movb_forma" class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -90,6 +83,36 @@
                             @foreach($cond_pagamento as $cond)
                                 <option value="{{ $cond->copa_codigo }}">{{ $cond->copa_nome }}</option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Qt parcelas</label>
+                        <select name="movb_parcelas" class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">Selecione</option>
+                            <option value="1">1x</option>
+                            <option value="2">2x</option>
+                            <option value="3">3x</option>
+                            <option value="4">4x</option>
+                            <option value="5">5x</option>
+                            <option value="6">6x</option>
+                            <option value="7">7x</option>
+                            <option value="8">8x</option>
+                            <option value="9">9x</option>
+                            <option value="10">10x</option>
+                            <option value="11">11x</option>
+                            <option value="12">12x</option>
+                            <option value="13">13x</option>
+                            <option value="14">14x</option>
+                            <option value="15">15x</option>
+                            <option value="16">16x</option>
+                            <option value="17">17x</option>
+                            <option value="18">18x</option>
+                            <option value="19">19x</option>
+                            <option value="20">20x</option>
+                            <option value="21">21x</option>
+                            <option value="22">22x</option>
+                            <option value="23">23x</option>
+                            <option value="24">24x</option>
                         </select>
                     </div>
 

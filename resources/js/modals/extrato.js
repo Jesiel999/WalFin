@@ -8,6 +8,15 @@ document.getElementById('movb_categoria').addEventListener('change', function(){
     }
 });
 
+document.getElementById('movb_forma').addEventListener('change', function(){
+    let parcelas = document.getElementById('parcelasExtrato');
+    if (this.value === "19") {
+        parcelas.classList.remove('hidden');
+    } else {
+        parcelas.classList.add('hidden');
+    }
+})
+
 document.getElementById('add-transacoes-btn').addEventListener('click', function() {
     document.getElementById('transacoes-modal').classList.remove('hidden');
 });

@@ -49,7 +49,7 @@ Route::middleware(['verifica.login'])->group(function () {
 
     /* Buscar Pessoa */
     Route::get('/pessoa/buscar ', [PessoaController::class,'buscar']);
-     Route::get('/pessoa/{pes_codigo}/buscar ', [PessoaController::class,'buscarUpdate']);
+    Route::get('/extrato/{movb_pessoa}/buscar ', [PessoaController::class,'buscarUpdate']);
 
     /* Categorias */
     Route::get('/categorias', [CatController::class, 'exibir'])->name('categorias');

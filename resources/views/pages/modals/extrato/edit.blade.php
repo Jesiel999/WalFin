@@ -31,10 +31,10 @@
 
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Pessoa</label>
-                        <input type="text" id="buscaPessoa"
+                        <input type="text" id="buscarPessoaUpdate" name="movb_pessoa"
                             class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         <input type="hidden" id="movb_pessoa" name="movb_pessoa">
-                        <ul id="resultado" 
+                        <ul id="resultadoUpdate" 
                             style="border:1px solid #ccc; display:none; position:absolute; background:#fff; list-style:none; padding:0; margin:0; width:200px;"></ul>
                     </div>
 

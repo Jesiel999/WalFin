@@ -1,10 +1,10 @@
 $(document).ready(function() { 
-    $("#buscaPessoa").on("keyup", function(){
+    $("#buscarPessoaUpdate").on("keyup", function(){
         let termo = $(this).val();
 
         if(termo.length > 2){
             $.ajax({
-                url:"/pessoa/{pes_codigo}/buscar",
+                url:"/extrato/{movb_pessoa}/buscar",
                 type:"GET",
                 data: { q: termo },
                 success: function(data){
@@ -12,11 +12,11 @@ $(document).ready(function() {
                     data.forEach(function(pessoa){
                         lista += "<li class='item-pessoa' data-id='"+pessoa.pes_codigo+"'>"+pessoa.pes_nome+" | "+pessoa.pes_cpfpj+" </li>";
                     });
-                    $("#resultado").html(lista).show();
+                    $("#resultadoUpdate").html(lista).show();
                 }
             });
         }else{
-            $("#resultado").hide();
+            $("#resultadoUpdate").hide();
         }
     });
 
@@ -24,8 +24,8 @@ $(document).ready(function() {
         let nome = $(this).text();
         let id = $(this).data("id");
 
-        $("#buscaPessoa").val(nome);
+        $("#buscarPessoaUpdate").val(nome);
         $("#movb_pessoa").val(id);
-        $("#resultado").hide();
+        $("#resultadoUpdate").hide();
     });
 });

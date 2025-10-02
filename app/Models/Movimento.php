@@ -18,7 +18,6 @@ class movimento extends Model
         'movb_valorliquido',
         'movb_situacao',
         'movb_categoria',
-        'movb_cpfpj',
         'movb_pessoa',
         'movb_observ',
         'movb_datavenc',
@@ -40,5 +39,9 @@ class movimento extends Model
     public function parcelas()
     {
         return $this->hasMany(Parcela::class, 'par_codigomov', 'movb_codigo');
+    }
+    public function pessoa()
+    {
+        return $this->belongsTo(Pessoa::class, 'movb_pessoa','pes_codigo');
     }
 }

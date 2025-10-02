@@ -8,6 +8,7 @@ use App\Models\Movimento;
 use App\Models\Categoria;
 use App\Models\CondPagamento;
 use App\Models\Parcela;
+use App\Models\Pessoa;
 use Exception;
 
 class MovController extends Controller
@@ -33,7 +34,6 @@ class MovController extends Controller
                 'movb_valorliquido' => $request->movb_valorliquido,
                 'movb_situacao'     => $request->movb_situacao,
                 'movb_categoria'    => $request->movb_categoria,
-                'movb_cpfpj'        => $request->movb_cpfpj,
                 'movb_pessoa'       => $request->movb_pessoa,
                 'movb_observ'       => $request->movb_observ,
                 'movb_datavenc'     => $request->movb_datavenc,
@@ -82,7 +82,7 @@ class MovController extends Controller
     $userId = $request->cookie('user_id');
     
     // QUERY FILTROS EXTRATO
-    $query = Movimento::with('categoria', 'condpagamento')
+    $query = Movimento::with('categoria', 'condpagamento', 'pessoa')
         ->where('movb_codclie', $userId);
 
     if ($request->filled('categoria')) {
@@ -123,7 +123,11 @@ class MovController extends Controller
         ->orderBy('copa_codigo', 'asc')
         ->get();
 
-    return view('pages.extrato', compact('movimentos', 'categorias', 'cond_pagamento'));
+    $pessoa = Pessoa::where('pes_codclie', $userId)
+        ->orderBy('pes_codigo','asc')
+        ->get();
+
+    return view('pages.extrato', compact('movimentos', 'categorias', 'cond_pagamento', 'pessoa'));
     }
 
     // LISTAR PARCELAS

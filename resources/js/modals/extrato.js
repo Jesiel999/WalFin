@@ -21,10 +21,10 @@ document.getElementById('cancel-transacoes').addEventListener('click', function(
 /* Janela de Editar */  
 document.querySelectorAll('.edit-transacao-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+        
         document.querySelector('#transacoes-edit input[name="movb_codigo"]').value = this.dataset.id;
         document.querySelector('#transacoes-edit input[name="movb_valortotal"]').value = this.dataset.valortotal;
         document.querySelector('#transacoes-edit input[name="movb_valorliquido"]').value = this.dataset.valorliquido;
-        document.querySelector('#transacoes-edit input[name="movb_cpfpj"]').value = this.dataset.cpfpj;
         document.querySelector('#transacoes-edit input[name="movb_pessoa"]').value = this.dataset.pessoa;
         document.querySelector('#transacoes-edit select[name="movb_situacao"]').value = this.dataset.situacao;
         document.querySelector('#transacoes-edit select[name="movb_categoria"]').value = this.dataset.categoria;

@@ -2,6 +2,8 @@
 
 @section('extra-scripts')
     <script type="module" src="{{Vite::asset('resources/js/modals/extrato.js')}}"></script>
+    <script type="module" src="{{Vite::asset('resources/js/buscapessoa.js')}}"></script>
+    <script type="module" src="{{Vite::asset('resources/js/buscapessoaupdate.js')}}"></script>
 @endsection
 
 @section('title', 'Extrato')
@@ -88,7 +90,7 @@
                             <td class="px-6 py-2 text-center text-gray-600 font-medium hidden lg:table-cell">
                                 {{ \Carbon\Carbon::parse($mov->movb_dataes)->format('d/m/Y') }}
                             </td>
-                            <td class="px-2 py-2 lg:px-6 text-wrap text-center text-gray-700">{{ $mov->movb_pessoa }}</td>
+                            <td class="px-2 py-2 lg:px-6 text-wrap text-center text-gray-700">{{ $mov->pessoa ? $mov->pessoa->pes_nome : '' }}</td>
                             <td class="px-6 py-2 hidden text-center lg:table-cell">
                                 <span class="px-3 py-1 text-xs font-semibold rounded-full 
                                     {{ $mov->movb_natureza === 'Receita' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
@@ -125,8 +127,7 @@
                                     data-id="{{ $mov->movb_codigo }}"
                                     data-valortotal="{{ $mov->movb_valortotal }}"
                                     data-valorliquido="{{ $mov->movb_valorliquido }}"
-                                    data-cpfpj="{{ $mov->movb_cpfpj }}"
-                                    data-pessoa="{{ $mov->movb_pessoa }}"
+                                    data-pessoa="{{ $mov->pessoa ? $mov->pessoa->pes_nome : '' }}"
                                     data-situacao="{{ $mov->movb_situacao }}"
                                     data-categoria="{{ $mov->movb_categoria }}"
                                     data-datavenc="{{ $mov->movb_datavenc ? \Illuminate\Support\Carbon::parse($mov->movb_datavenc)->format('Y-m-d') : '' }}"

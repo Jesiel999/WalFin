@@ -46,7 +46,11 @@ Route::middleware(['verifica.login'])->group(function () {
     Route::post('/pessoa', [PessoaController::class, 'store'])->name('pessoa.store');
     Route::put('/pessoa/{pes_codigo}', [PessoaController::class,'update'])->name('updatePes');
     Route::delete('/pessoa/{pes_codigo}', [PessoaController::class, 'destroy'])->name('deletePes');
-    
+
+    /* Buscar Pessoa */
+    Route::get('/pessoa/buscar ', [PessoaController::class,'buscar']);
+     Route::get('/pessoa/{pes_codigo}/buscar ', [PessoaController::class,'buscarUpdate']);
+
     /* Categorias */
     Route::get('/categorias', [CatController::class, 'exibir'])->name('categorias');
     Route::post('/categorias', [CatController::class, 'store'])->name('categorias.store');

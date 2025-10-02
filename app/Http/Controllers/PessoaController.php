@@ -41,6 +41,30 @@ class PessoaController extends Controller
         return view("pages.pessoa", compact("pessoas"));
     }
 
+    /* BUSCAR */
+    public function buscar(Request $request) {
+        $q = $request->input('q');
+
+        $pessoas = Pessoa::where('pes_nome', 'LIKE', "%$q%")
+            ->orWhere('pes_cpfpj', 'LIKE', "%$q%")
+            ->limit(10)
+            ->get(['pes_codigo', 'pes_nome', 'pes_cpfpj']);
+
+        return response()->json($pessoas);
+    }
+
+    /* UPDATE BUSCAR */
+    public function buscarUpdate(Request $request) {
+        $q = $request->input('q');
+
+        $pessoas = Pessoa::where('pes_nome', 'LIKE', "%$q%")
+            ->orWhere('pes_cpfpj', 'LIKE', "%$q%")
+            ->limit(10)
+            ->get(['pes_codigo', 'pes_nome', 'pes_cpfpj']);
+
+        return response()->json($pessoas);
+    }
+
     // ALTERAR
     public function update(PessoaRequest $request, $pes_codigo) 
     {

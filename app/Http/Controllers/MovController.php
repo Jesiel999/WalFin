@@ -43,21 +43,23 @@ class MovController extends Controller
                 'movb_natureza'     => $request->movb_natureza,
             ]);
 
-            if ($condicao->copa_tipo === 'A prazo' && $condicao->copa_parcelas > 1) {
-                $valorParcela   = $request->movb_valortotal / $condicao->copa_parcelas;
+            $parcelasSelecionadas = $request->movb_parcelas;
+
+            if ($parcelasSelecionadas > 1) {
+                $valorParcela   = $request->movb_valortotal / $parcelasSelecionadas;
                 $dataVencimento = \Carbon\Carbon::parse($request->movb_datavenc);
                 
-                for ($i = 1; $i <= $condicao->copa_parcelas; $i++) {
+                for ($i = 1; $i <= $parcelasSelecionadas; $i++) {
                     Parcela::create([
                         'par_codclie'   => $request->cookie('user_id'), 
                         'par_codigo'    => $movimento->id,        
                         'par_codigomov' => $movimento->movb_codigo,  
                         'par_valor'     => $valorParcela,
                         'par_numero'    => $i,
-                        'par_qtnumero'  => $condicao->copa_parcelas,
-                        'par_datavenc'  => $dataVencimento->copy()->addDays($condicao->copa_intervalo * ($i - 1)),
+                        'par_qtnumero'  => $parcelasSelecionadas,
+                        'par_datavenc'  => $dataVencimento->copy()->addMonths($i - 1), // Aqui
                         'par_databaixa' => $request->movb_databaixa 
-                                            ? $dataVencimento->copy()->addDays($condicao->copa_intervalo * ($i - 1)) 
+                                            ? $dataVencimento->copy()->addMonths($i - 1) 
                                             : null,
                         'par_situacao'  => $request->movb_databaixa ? 'Pago' : 'Pendente',
                     ]);
@@ -127,7 +129,11 @@ class MovController extends Controller
         ->orderBy('pes_codigo','asc')
         ->get();
 
-    return view('pages.extrato', compact('movimentos', 'categorias', 'cond_pagamento', 'pessoa'));
+    $parcela = Parcela::where('par_codclie', $userId)
+        ->orderBy('par_codigo','asc')
+        ->get();
+
+    return view('pages.extrato', compact('movimentos', 'categorias', 'cond_pagamento', 'pessoa', 'parcela'));
     }
 
     // LISTAR PARCELAS

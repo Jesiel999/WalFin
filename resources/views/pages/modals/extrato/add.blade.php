@@ -115,13 +115,13 @@
                         <div class="grid grid-cols-4 gap-2">
                             <label class="flex items-center space-x-2 border rounded-lg px-2 py-1 cursor-pointer hover:bg-indigo-100">
                                 <input type="radio" name="movb_parcelas" value="0"
-                                    {{ old('movb_parcelas', $mov->movb_parcelas ?? '') == 0 ? 'checked' : '' }}>
+                                    {{ old('par_qtnumero', $par->par_qtnumero ?? '') == 0 ? 'checked' : '' }}>
                                 <span>À vista</span>
                             </label>
                             @for ($i = 2; $i <= 24; $i++)
                                 <label class="flex items-center space-x-2 border rounded-lg px-2 py-1 cursor-pointer hover:bg-indigo-100">
                                     <input type="radio" name="movb_parcelas" value="{{ $i }}"
-                                        {{ old('movb_parcelas', $mov->movb_parcelas ?? '') == $i ? 'checked' : '' }}>
+                                        {{ old('par_qtnumero', $par->par_qtnumero ?? '') == $i ? 'checked' : '' }}>
                                     <span>{{ $i }}x</span>
                                 </label>
                             @endfor

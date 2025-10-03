@@ -15,9 +15,6 @@ class CondPagamentoRequest extends FormRequest {
             'copa_codclie'   => 'nullable|integer',
             'copa_nome'      => 'required|string|max:255',
             'copa_desc'      => 'nullable|string',
-            'copa_tipo'      => 'required|string', 
-            'copa_intervalo' => 'nullable|integer',
-            'copa_parcelas'  => 'nullable|integer',
             'copa_status'    => 'nullable|integer|max:1',
         ];
     }

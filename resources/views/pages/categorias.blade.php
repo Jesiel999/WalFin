@@ -18,7 +18,7 @@
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            @foreach($categorias as $categoria)
+            @forelse($categorias as $categoria)
                 <div class="bg-gray-100 rounded-xl p-3 md:p-4 shadow-sm flex items-center justify-between">
                     <div class="bg-blue-100 p-2 md:p-3 rounded-full mr-3 md:mr-4">
                         <i class="{{ $categoria->cat_icone }} text-blue-600 text-lg md:text-xl"></i>
@@ -45,10 +45,10 @@
             <div class="col-span-full text-center py-6 text-gray-500 italic">
                 Nenhuma categoria encontrada
             </div>  
-                @include ('pages.modals.categoria.add')
-                @include ('pages.modals.categoria.edit')
-                @include ('pages.modals.categoria.delete')
-            @endforeach
+            @endforelse
+            @include ('pages.modals.categoria.add')
+            @include ('pages.modals.categoria.edit')
+            @include ('pages.modals.categoria.delete')
         </div>
     </div>
 </section>  

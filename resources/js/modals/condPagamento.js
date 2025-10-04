@@ -8,26 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
     closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
     cancelBtn.addEventListener('click', () => modal.classList.add('hidden'));
-
-    const tipoPagamento = document.getElementById('copa_tipo');
-    const parcelasInput = document.getElementById('copa_parcelas');
-    const intervaloInput = document.getElementById('copa_intervalo');
-
-    function toggleCampos() {
-        if (tipoPagamento.value === 'A prazo') {
-            parcelasInput.disabled = false;
-            intervaloInput.disabled = false;
-        } else {
-            parcelasInput.value = '';
-            intervaloInput.value = '';
-            parcelasInput.disabled = true;
-            intervaloInput.disabled = true;
-        }
-    }
-
-    tipoPagamento.addEventListener('change', toggleCampos);
-
-    toggleCampos();
 });
 
 /* Janela de Editar */

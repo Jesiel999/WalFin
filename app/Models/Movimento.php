@@ -36,10 +36,12 @@ class movimento extends Model
     {
         return $this->belongsTo(CondPagamento::class, 'movb_forma', 'copa_codigo');
     }
+
     public function parcelas()
     {
         return $this->hasMany(Parcela::class, 'par_codigomov', 'movb_codigo');
     }
+    
     public function pessoa()
     {
         return $this->belongsTo(Pessoa::class, 'movb_pessoa','pes_codigo');

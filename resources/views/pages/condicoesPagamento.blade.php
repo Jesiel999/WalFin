@@ -15,12 +15,11 @@
                 <i class="fas fa-plus mr-2"></i> Nova Condição
             </button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="lista-condicao-pagamento">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="lista-condicao-pagamento">
             @forelse($cond_pagamento as $cond)
                 <div class="bg-gray-100 rounded-xl p-4 shadow-sm flex justify-between items-center">
                     <div>
                         <h3 class="text-lg font-semibold">{{ $cond->copa_nome }}</h3>
-                        <p class="text-sm text-gray-500">{{ $cond->copa_tipo }}</p>
                     </div>
 
                     <div class="flex space-x-2">
@@ -33,8 +32,7 @@
                         </button>
                         <button type="button"
                             class="cond-pagamento-exclui p-2 bg-white border rounded-full hover:bg-gray-200"
-                            data-id="{{ $cond->copa_codigo }}"
-                            >
+                            data-id="{{ $cond->copa_codigo }}">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>

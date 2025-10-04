@@ -14,6 +14,7 @@ use App\Models\Categoria;
 use App\Models\Movimento;
 use App\Models\Parcela;
 use App\Models\Pessoa;
+use App\Http\Requests\AuthRequest;
 
 class AuthController extends Controller
 {
@@ -60,31 +61,11 @@ class AuthController extends Controller
         return redirect('/login');
     }
     
-    public function cadastro(Request $request)
+    public function cadastro(AuthRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nome'    => 'required|string|max:255',
-            'cpf_pj'  => 'required|digits_between:10,18|unique:usuario,usua_cpfpj',
-            'email'   => 'required|string|email|max:255|unique:usuario,usua_email',
-            'telefone'=> 'required|digits_between:10,11|unique:usuario,usua_telefone',
-            'senha'   => 'required|string|min:4|confirmed',
-        ],[
-            'required'          => 'O campo :attribute é obrigatório.',
-            'integer'           => 'O campo :attribute deve ser um número inteiro.',
-            'numeric'           => 'O campo :attribute deve ser numérico.',
-            'date'              => 'O campo :attribute deve estar em formato válido (YYYY-MM-DD).',
-            'string'            => 'O campo :attribute deve ser um texto.',
-            'digits_between'    => 'O campo :attribute deve ter de 10 a 11 digitos.',
-            'unique'            => 'Já existe um usuário cadastrado com este :attribute.',
-            'confirmed'         => 'As senhas são diferentes.',
-            'email'             => 'O campo :attribute deve ser um E-mail.',
-        ]);
+        $request->validated();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $usuario = Usuario::create([
+        Usuario::create([
             'usua_grupo'    => 'cliente',
             'usua_nome'     => $request->input('nome'),
             'usua_cpfpj'    => $request->input('cpf_pj'),
@@ -92,31 +73,10 @@ class AuthController extends Controller
             'usua_telefone' => $request->input('telefone'),
             'usua_senha'    => Hash::make($request->input('senha')),
         ]);
-       
-        $categoriasPadrao = [
-            ['cat_codigo' => 1,  'cat_nome' => 'Alimentação',        'cat_icon' => 'fas fa-utensils'],
-            ['cat_codigo' => 2,  'cat_nome' => 'Transporte',         'cat_icon' => 'fas fa-car'],
-            ['cat_codigo' => 3,  'cat_nome' => 'Salário',            'cat_icon' => 'fas fa-laptop'],
-            ['cat_codigo' => 4,  'cat_nome' => 'Doméstico',          'cat_icon' => 'fas fa-home'],
-            ['cat_codigo' => 5,  'cat_nome' => 'Lazer',              'cat_icon' => 'fas fa-star'],
-            ['cat_codigo' => 6,  'cat_nome' => 'Renda Extra',        'cat_icon' => 'fas fa-globe'],
-            ['cat_codigo' => 7,  'cat_nome' => 'Saúde',              'cat_icon' => 'fas fa-heart'],
-            ['cat_codigo' => 8, 'cat_nome' => 'Educação',           'cat_icon' => 'fas fa-book'],
-            ['cat_codigo' => 9, 'cat_nome' => 'Compras',            'cat_icon' => 'fas fa-shopping-bag'],
-            ['cat_codigo' => 10, 'cat_nome' => 'Investimento',       'cat_icon' => 'fas fa-bolt'],
-        ];
-
-        foreach ($categoriasPadrao as $cat) {
-            Categoria::create([
-                'cat_codclie' => $usuario->usua_codigo,
-                'cat_codigo'  => $cat['cat_codigo'],
-                'cat_nome'    => $cat['cat_nome'],
-                'cat_icone'    => $cat['cat_icon'],
-            ]);
-        }
 
         return redirect()->route('login')->with('success', 'Usuário cadastrado com sucesso!');
     }
+
 
     public function editSenha()
     {

@@ -18,41 +18,6 @@
                     <p class="text-red-600 text-sm">{{ $message }}</p> 
                 @enderror
             </div>
-
-            <div class="mb-4">
-                <label for="tipo" class="block font-medium mb-1">Tipo de Pagamento*</label>
-                <select name="copa_tipo" id="copa_tipo" required
-                    class="w-full border rounded px-3 py-2">
-                    <option value="A vista" {{ old('copa_tipo', 'A vista') == 'A vista' ? 'selected' : '' }}>A vista</option>
-                    <option value="A prazo" {{ old('copa_tipo') == 'A prazo' ? 'selected' : '' }}>A prazo</option>
-                </select>
-                @error('copa_tipo') 
-                    <p class="text-red-600 text-sm">{{ $message }}</p> 
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="numero_parcelas" class="block font-medium mb-1">Número de Parcelas*</label>
-                <input type="number" name="copa_parcelas" id="copa_parcelas" min="1"
-                    class="w-full border rounded px-3 py-2"
-                    value="{{ old('copa_parcelas') }}"
-                    {{ old('copa_tipo', 'A vista') != 'A prazo' ? 'disabled' : '' }}>
-                @error('numero_parcelas') 
-                    <p class="text-red-600 text-sm">{{ $message }}</p> 
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="intervalo_dias" class="block font-medium mb-1">Intervalo entre parcelas (dias)*</label>
-                <input type="number" name="copa_intervalo" id="copa_intervalo" min="0"
-                    class="w-full border rounded px-3 py-2"
-                    value="{{ old('copa_intervalo') }}"
-                    {{ old('copa_tipo', 'A vista') != 'A prazo' ? 'disabled' : '' }}>
-                @error('intervalo_dias')
-                    <p class="text-red-600 text-sm">{{ $message }}</p> 
-                @enderror
-            </div>
-
             
             <div class="mb-4">
                 <label for="descricao" class="block font-medium mb-1">Descrição</label>

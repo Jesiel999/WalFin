@@ -113,11 +113,10 @@
                             </td>
                             <td class="px-6 py-2 hidden lg:table-cell text-center">{{ $mov->condpagamento->copa_nome }}</td>
                             <td class="px-2 py-2 lg:px-6 flex space-x-2 flex items-center justify-center space-x-2">
-                                @if($mov->parcela->par_qtnumero > 1)
+                                @if($mov->parcelas->first()?->par_qtnumero > 1)
                                     <button type="button" 
                                         class="parcelamento px-5 py-3 text-base lg:px-3 lg:py-2 lg:text-sm border rounded-lg bg-yellow-300 text-gray-700 hover:bg-yellow-400"
-                                        data-id="{{ $mov->movb_codigo }}"
-                                        >
+                                        data-id="{{ $mov->movb_codigo }}" >
                                         Parcelas
                                     </button>
                                 @endif

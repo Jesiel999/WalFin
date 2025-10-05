@@ -6,6 +6,8 @@ use App\Http\Requests\PessoaRequest;
 use Illuminate\Http\Request;
 use App\Models\Pessoa;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+
 class PessoaController extends Controller
 {
     // CADASTRO
@@ -14,7 +16,9 @@ class PessoaController extends Controller
         try {
             $dados = $request->validated();
 
-            $dados['pes_codclie'] = $request->cookie('user_id');
+            $userId = Auth::id();
+            
+            $dados['pes_codclie'] = $userId;
 
             Pessoa::create($dados);
 
@@ -32,9 +36,11 @@ class PessoaController extends Controller
     
     // LISTAR
     public function exibir() {
-    
+        
+        $userId = Auth::id();
+
         $pessoas = Pessoa::with('pessoa')
-        ->where('pes_codclie', request()->cookie('user_id'))
+        ->where('pes_codclie', $userId)
         ->orderBy('pes_codigo','asc')
         ->get();
         

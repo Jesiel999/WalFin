@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Auth;
 
 class EditAuthRequest extends FormRequest
 {
@@ -15,7 +15,7 @@ class EditAuthRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = (int) Cookie::get('user_id');
+        $userId = Auth::id();
 
         return [
             "usua_nome" => [

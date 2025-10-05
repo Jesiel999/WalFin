@@ -6,13 +6,16 @@ use App\Http\Requests\CatRequest;
 use Illuminate\Http\Request;
 use App\Models\Categoria;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class CatController extends Controller
 {
     // LISTAR
     public function exibir()
     {
-        $categorias = Categoria::where('cat_codclie', request()->cookie('user_id'))
+        $userId = Auth::id();
+
+        $categorias = Categoria::where('cat_codclie', $userId)
             ->orderBy('cat_codigo', 'asc')
             ->get();
 
@@ -24,8 +27,8 @@ class CatController extends Controller
     {       
         try {
             $dados = $request->validated();
-
-            $dados['cat_codclie'] = $request->cookie('user_id');
+            $userId = Auth::id();
+            $dados['cat_codclie'] = $userId;
 
             Categoria::create($dados);
 

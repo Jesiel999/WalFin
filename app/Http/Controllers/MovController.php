@@ -10,6 +10,7 @@ use App\Models\CondPagamento;
 use App\Models\Parcela;
 use App\Models\Pessoa;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class MovController extends Controller
 {
@@ -21,6 +22,8 @@ class MovController extends Controller
             
             $request->validated();
 
+            $userId = Auth::id();
+
             $condicao = CondPagamento::where('copa_codigo', $request->movb_forma)->first();
 
             if (!$condicao) {
@@ -28,7 +31,7 @@ class MovController extends Controller
             }
 
             $movimento = Movimento::create([
-                'movb_codclie'      => $request->cookie('user_id'),
+                'movb_codclie'      => $userId,
                 'movb_codigo'       => $request->movb_codigo,
                 'movb_valortotal'   => $request->movb_valortotal,
                 'movb_valorliquido' => $request->movb_valorliquido,
@@ -51,7 +54,7 @@ class MovController extends Controller
                 
                 for ($i = 1; $i <= $parcelasSelecionadas; $i++) {
                     Parcela::create([
-                        'par_codclie'   => $request->cookie('user_id'), 
+                        'par_codclie'   => $userId, 
                         'par_codigo'    => $movimento->id,        
                         'par_codigomov' => $movimento->movb_codigo,  
                         'par_valor'     => $valorParcela,
@@ -81,7 +84,7 @@ class MovController extends Controller
     // LISTAR EXTRATO
     public function exibir(Request $request) 
     {
-    $userId = $request->cookie('user_id');
+    $userId = Auth::id();
     
     // QUERY FILTROS EXTRATO
     $query = Movimento::with('categoria', 'condpagamento', 'pessoa')
@@ -140,7 +143,7 @@ class MovController extends Controller
     public function parcelamento(Request $request, $movb_codigo)
     {
         $movimento = Movimento::findOrFail($movb_codigo);
-        $userId = $request->cookie('user_id');
+        $userId = Auth::id();
 
         $parcelas = Parcela::where('par_codclie', $userId)
             ->where('par_codigomov', $movb_codigo) 
@@ -168,6 +171,8 @@ class MovController extends Controller
     {     
         try {
             $condicao = CondPagamento::where('copa_codigo', $request->movb_forma)->first();
+            
+            $userId = Auth::id();
 
             if (!$condicao) {
                 throw new \Exception("Condição de pagamento inválida.");
@@ -189,7 +194,7 @@ class MovController extends Controller
 
                 for ($i = 1; $i <= $condicao->copa_parcelas; $i++) {
                     Parcela::create([
-                        'par_codclie'   => $request->cookie('user_id'), 
+                        'par_codclie'   => $userId, 
                         'par_codigo'    => $movimento->id,        
                         'par_codigomov' => $movimento->movb_codigo,  
                         'par_valor'     => $valorParcela,

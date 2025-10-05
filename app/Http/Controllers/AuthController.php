@@ -6,7 +6,6 @@ use App\Models\EditUsuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Cookie;
 use App\Models\Usuario;
 use App\Models\Movimento;
 use App\Models\Parcela;
@@ -103,7 +102,6 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Senha alterada com sucesso!');
     }
-
 
     /* ALTERAR USUÁRIO */
     public function editUser(EditAuthRequest $request)

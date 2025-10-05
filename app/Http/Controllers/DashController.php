@@ -7,13 +7,14 @@ use App\Models\Movimento;
 use App\Models\Parcela;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DashController extends Controller
 {
     public function receitaXdespesa()
     {   
         ini_set('max_execution_time', 120);
-        $userId = request()->cookie('user_id');
+        $userId = Auth::id();
 
         $totalReceitasParcelas = Parcela::whereHas('movimento', function ($q) use ($userId) {
                 $q->where('movb_codclie', $userId)

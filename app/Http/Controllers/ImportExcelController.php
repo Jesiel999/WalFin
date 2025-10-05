@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ImportExcelController extends Controller
 {
     public function import(Request $request)
     {
+        $userId = Auth::id();
+
         $request->validate([
             'file' => 'required|mimes:csv,txt|max:2048',
         ]);
@@ -42,7 +45,7 @@ class ImportExcelController extends Controller
 
             try {
                 Movimento::create([
-                    'movb_codclie'      => $request->cookie('user_id'),
+                    'movb_codclie'      => $userId,
                     'movb_valortotal'   => floatval(str_replace(',', '.', str_replace('"', '', $data[1]))),
                     'movb_valorliquido' => floatval(str_replace(',', '.', str_replace('"', '', $data[2] ?? 0))),
                     'movb_situacao'     => $data[3] ?? null,

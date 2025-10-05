@@ -7,6 +7,7 @@ use App\Http\Requests\CondPagamentoRequest;
 use Illuminate\Http\Request;
 use App\Models\CondPagamento;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class CondPagamentoController extends Controller
 {
@@ -17,7 +18,9 @@ class CondPagamentoController extends Controller
         try {
             $dados = $request->validated();
 
-            $dados['copa_codclie'] = $request->cookie('user_id');
+            $userId = Auth::id();
+
+            $dados['copa_codclie'] = $userId;
 
             CondPagamento::create($dados);
             
@@ -36,7 +39,8 @@ class CondPagamentoController extends Controller
     // LISTAR
     public function exibir()
     {
-        $cond_pagamento = CondPagamento::where('copa_codclie', request()->cookie('user_id'))
+        $userId = Auth::id();
+        $cond_pagamento = CondPagamento::where('copa_codclie', $userId)
             ->orderBy('copa_codigo', 'asc')
             ->get();
 

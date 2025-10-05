@@ -9,6 +9,7 @@ use App\Models\Movimento;
 use App\Models\CondPagamento;
 use App\Models\Categoria;
 use App\Models\Parcela;
+use Illuminate\Support\Facades\Auth;
 
 class ParController extends Controller
 {
@@ -19,8 +20,10 @@ class ParController extends Controller
 
             $request->validated();
 
+            $userId = Auth::id();
+
             Movimento::create([
-                'par_codclie'       => $request->cookie('user_id'),
+                'par_codclie'       => $userId,
                 'par_codigomov'        => $request->par_codigomov,
                 'par_valor'        => $request->par_valor,
                 'par_numero'        => $request->par_numero,
@@ -46,20 +49,22 @@ class ParController extends Controller
     // LISTAR
     public function exibir() 
     {
+        $userId = Auth::id();
+        
         $movimentos = Movimento::with('categoria')
-            ->where('movb_codclie', request()->cookie('user_id'))
+            ->where('movb_codclie', $userId)
             ->orderBy('movb_dataes', 'desc')
             ->get();
 
-        $categorias = Categoria::where('cat_codclie', request()->cookie('user_id'))
+        $categorias = Categoria::where('cat_codclie', $userId)
             ->orderBy('cat_codigo', 'asc')
             ->get();
 
-        $cond_pagamento = CondPagamento::where('copa_codclie', request()->cookie('user_id'))
+        $cond_pagamento = CondPagamento::where('copa_codclie', $userId)
             ->orderBy('copa_codigo', 'asc')
             ->get();
 
-        $parcelas = Parcela::where('par_codclie', request()->cookie('user_id'))
+        $parcelas = Parcela::where('par_codclie', $userId)
             ->orderBy('par_codigo', 'asc')
             ->get();
 

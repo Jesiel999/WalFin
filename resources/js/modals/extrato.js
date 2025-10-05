@@ -34,7 +34,7 @@ document.querySelectorAll('.edit-transacao-btn').forEach(btn => {
         document.querySelector('#transacoes-edit input[name="movb_codigo"]').value = this.dataset.id;
         document.querySelector('#transacoes-edit input[name="movb_valortotal"]').value = this.dataset.valortotal;
         document.querySelector('#transacoes-edit input[name="movb_valorliquido"]').value = this.dataset.valorliquido;
-        document.querySelector('#transacoes-edit input[name="movb_pessoa"]').value = this.dataset.pessoa;
+        document.querySelector('#transacoes-edit input[name="movb_pessoa_atual"]').value = this.dataset.pessoa;
         document.querySelector('#transacoes-edit select[name="movb_situacao"]').value = this.dataset.situacao;
         document.querySelector('#transacoes-edit select[name="movb_categoria"]').value = this.dataset.categoria;
         document.querySelector('#transacoes-edit input[name="movb_datavenc"]').value = this.dataset.datavenc;
@@ -42,13 +42,14 @@ document.querySelectorAll('.edit-transacao-btn').forEach(btn => {
         document.querySelector('#transacoes-edit select[name="movb_forma"]').value = this.dataset.forma;
         document.querySelector('#transacoes-edit select[name="movb_natureza"]').value = this.dataset.natureza;
         document.querySelector('#transacoes-edit textarea[name="movb_observ"]').value = this.dataset.observ;
-        document.querySelector('#transacoes-edit input[name="copa_parcelas"]').value = this.dataset.parcela;
+        document.querySelector('#transacoes-edit select[name="movb_parcelas"]').value = this.dataset.parcela;
         
         const dateBaixa = document.querySelector('#transacoes-edit input[name="movb_databaixa"]');
         if (this.dataset.parcela >= 2) {
             dateBaixa.readOnly = true;
             dateBaixa.classList.add("bg-gray-100", "cursor-not-allowed");
         }
+
         document.querySelector('#transacoes-edit form').action = `/extrato/${this.dataset.id}`;
 
         document.getElementById('transacoes-edit').classList.remove('hidden');
@@ -173,17 +174,6 @@ document.getElementById('close-parcelamento-edit').addEventListener('click', () 
 
 document.getElementById('cancel-parcelamento-edit').addEventListener('click', () => {
     document.getElementById('edit-parcelamento-modal').classList.add('hidden');
-});
-
-/* Janela de Cadastro */
-document.getElementById('add-import-btn').addEventListener('click', function() {
-    document.getElementById('import-modal').classList.remove('hidden');
-});
-document.getElementById('close-import').addEventListener('click', function() {
-    document.getElementById('import-modal').classList.add('hidden');
-});
-document.getElementById('cancel-import').addEventListener('click', function() {
-    document.getElementById('import-modal').classList.add('hidden');
 });
 
 /* Limpar Filtro */

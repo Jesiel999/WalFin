@@ -61,7 +61,7 @@
     <div class="flex items-center">
         <img src="https://ui-avatars.com/api/?name=Usuário&background=random" alt="User" class="w-12 h-12 lg:w-8 lg:h-8 rounded-full mr-2">
         <div class="nav-text hidden">
-            <p class="text-sm font-medium text-base">{{ Cookie::get('user_name') }}</p>
+            <p class="text-sm font-medium text-base">{{ Auth::user()->usua_nome }}</p>
         </div>
     </div>
 </div>

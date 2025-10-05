@@ -60,7 +60,7 @@ class MovController extends Controller
                         'par_valor'     => $valorParcela,
                         'par_numero'    => $i,
                         'par_qtnumero'  => $parcelasSelecionadas,
-                        'par_datavenc'  => $dataVencimento->copy()->addMonths($i - 1), // Aqui
+                        'par_datavenc'  => $dataVencimento->copy()->addMonths($i - 1), 
                         'par_databaixa' => $request->movb_databaixa 
                                             ? $dataVencimento->copy()->addMonths($i - 1) 
                                             : null,
@@ -84,59 +84,59 @@ class MovController extends Controller
     // LISTAR EXTRATO
     public function exibir(Request $request) 
     {
-    $userId = Auth::id();
-    
-    // QUERY FILTROS EXTRATO
-    $query = Movimento::with('categoria', 'condpagamento', 'pessoa')
-        ->where('movb_codclie', $userId);
+        $userId = Auth::id();
+        
+        // QUERY FILTROS EXTRATO
+        $query = Movimento::with('categoria', 'condpagamento', 'pessoa')
+            ->where('movb_codclie', $userId);
 
-    if ($request->filled('categoria')) {
-        $query->where('movb_categoria', $request->categoria);
-    }
+        if ($request->filled('categoria')) {
+            $query->where('movb_categoria', $request->categoria);
+        }
 
-    if ($request->filled('natureza')) {
-        $query->where('movb_natureza', $request->natureza);
-    }
+        if ($request->filled('natureza')) {
+            $query->where('movb_natureza', $request->natureza);
+        }
 
-    if ($request->filled('situacao')) {
-        $query->where('movb_situacao', $request->situacao);
-    }
+        if ($request->filled('situacao')) {
+            $query->where('movb_situacao', $request->situacao);
+        }
 
-    if ($request->filled('data_inicio') && $request->filled('data_fim')) {
-        $query->whereBetween('movb_databaixa', [$request->data_inicio, $request->data_fim]);
-    } elseif ($request->filled('data_inicio')) {
-        $query->whereDate('movb_databaixa', '>=', $request->data_inicio);
-    } elseif ($request->filled('data_fim')) {
-        $query->whereDate('movb_databaixa', '<=', $request->data_fim);
-    }
+        if ($request->filled('data_inicio') && $request->filled('data_fim')) {
+            $query->whereBetween('movb_databaixa', [$request->data_inicio, $request->data_fim]);
+        } elseif ($request->filled('data_inicio')) {
+            $query->whereDate('movb_databaixa', '>=', $request->data_inicio);
+        } elseif ($request->filled('data_fim')) {
+            $query->whereDate('movb_databaixa', '<=', $request->data_fim);
+        }
 
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function($q) use ($search) {
-            $q->where('movb_pessoa', 'like', "%{$search}%")
-              ->orWhere('movb_observ', 'like', "%{$search}%");
-        });
-    }
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('movb_pessoa', 'like', "%{$search}%")
+                ->orWhere('movb_observ', 'like', "%{$search}%");
+            });
+        }
 
-    $movimentos = $query->orderBy('movb_dataes', 'desc')->paginate(15);
+        $movimentos = $query->orderBy('movb_dataes', 'desc')->paginate(15);
 
-    $categorias = Categoria::where('cat_codclie', $userId)
-        ->orderBy('cat_codigo', 'asc')
-        ->get();
+        $categorias = Categoria::where('cat_codclie', $userId)
+            ->orderBy('cat_codigo', 'asc')
+            ->get();
 
-    $cond_pagamento = CondPagamento::where('copa_codclie', $userId)
-        ->orderBy('copa_codigo', 'asc')
-        ->get();
+        $cond_pagamento = CondPagamento::where('copa_codclie', $userId)
+            ->orderBy('copa_codigo', 'asc')
+            ->get();
 
-    $pessoa = Pessoa::where('pes_codclie', $userId)
-        ->orderBy('pes_codigo','asc')
-        ->get();
+        $pessoa = Pessoa::where('pes_codclie', $userId)
+            ->orderBy('pes_codigo','asc')
+            ->get();
 
-    $parcela = Parcela::where('par_codclie', $userId)
-        ->orderBy('par_codigo','asc')
-        ->get();
+        $parcela = Parcela::where('par_codclie', $userId)
+            ->orderBy('par_codigo','asc')
+            ->get();
 
-    return view('pages.extrato', compact('movimentos', 'categorias', 'cond_pagamento', 'pessoa', 'parcela'));
+        return view('pages.extrato', compact('movimentos', 'categorias', 'cond_pagamento', 'pessoa', 'parcela'));
     }
 
     // LISTAR PARCELAS
@@ -168,17 +168,20 @@ class MovController extends Controller
 
     // EDITAR 
     public function update(Request $request, $movb_codigo)
-    {     
+    {
         try {
-            $condicao = CondPagamento::where('copa_codigo', $request->movb_forma)->first();
-            
             $userId = Auth::id();
 
+            $condicao = CondPagamento::where('copa_codigo', $request->movb_forma)->first();
             if (!$condicao) {
                 throw new \Exception("Condição de pagamento inválida.");
             }
-
+            
             $movimento = Movimento::findOrFail($movb_codigo);
+
+            if ($request->filled('movb_pessoa_edit')) {
+                $request->merge(['movb_pessoa' => $request->movb_pessoa_edit]);
+            }
 
             if (!empty($request->movb_databaixa)) {
                 $request->merge(['movb_situacao' => 'Pago']);
@@ -186,35 +189,38 @@ class MovController extends Controller
 
             $movimento->update($request->all());
 
-            if ($condicao->copa_tipo === 'A prazo' && $condicao->copa_parcelas > 1) {
-                $valorParcela   = $request->movb_valortotal / $condicao->copa_parcelas;
+            Parcela::where('par_codigomov', $movimento->movb_codigo)->delete();
+
+            $parcelasSelecionadas = (int) ($request->movb_parcelas ?? 1);
+
+            if ($parcelasSelecionadas > 1) {
+                $valorParcela   = $request->movb_valortotal / $parcelasSelecionadas;
                 $dataVencimento = \Carbon\Carbon::parse($request->movb_datavenc);
 
-                Parcela::where('par_codigomov', $movimento->movb_codigo)->delete();
-
-                for ($i = 1; $i <= $condicao->copa_parcelas; $i++) {
+                for ($i = 1; $i <= $parcelasSelecionadas; $i++) {
                     Parcela::create([
-                        'par_codclie'   => $userId, 
-                        'par_codigo'    => $movimento->id,        
-                        'par_codigomov' => $movimento->movb_codigo,  
+                        'par_codclie'   => $userId,
+                        'par_codigomov' => $movimento->movb_codigo,
                         'par_valor'     => $valorParcela,
                         'par_numero'    => $i,
-                        'par_qtnumero'  => $condicao->copa_parcelas,
-                        'par_datavenc'  => $dataVencimento->copy()->addDays($condicao->copa_intervalo * ($i - 1)),
-                        'par_databaixa' => null,
-                        'par_situacao'  => 'Pendente',
+                        'par_qtnumero'  => $parcelasSelecionadas,
+                        'par_datavenc'  => $dataVencimento->copy()->addMonths($i - 1),
+                        'par_databaixa' => $request->movb_databaixa 
+                                            ? $dataVencimento->copy()->addMonths($i - 1)
+                                            : null,
+                        'par_situacao'  => !empty($request->movb_databaixa) ? 'Pago' : 'Pendente',
                     ]);
                 }
             }
 
             return redirect()
                 ->route('extrato')
-                ->with('success', 'Movimento cadastrado com sucesso!');
+                ->with('success', 'Movimento atualizado com sucesso!');
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Erro ao salvar o movimento: ' . $e->getMessage())
+                ->with('error', 'Erro ao atualizar o movimento: ' . $e->getMessage())
                 ->withInput();
         }
     }

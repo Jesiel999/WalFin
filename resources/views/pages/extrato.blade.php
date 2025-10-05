@@ -134,8 +134,7 @@
                                     data-forma="{{ $mov->movb_forma }}"
                                     data-natureza="{{ $mov->movb_natureza }}"
                                     data-observ="{{ $mov->movb_observ }}"
-                                    data-parcela="{{ $mov->condpagamento->copa_parcelas}}"
-                                >
+                                    data-parcela="{{ $mov->parcelas->first()?->par_qtnumero ?? '' }}">
                                     Editar
                                 </button>
                                 <button type="button" class="add-transacoes-exclui px-5 py-3 text-base lg:px-3 lg:py-2 lg:text-sm border rounded-lg bg-red-600 text-gray-100 hover:bg-red-700"

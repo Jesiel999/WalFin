@@ -127,8 +127,7 @@
                             @endfor
                         </div>
                     </div>
-
-
+                    
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Natureza</label>
                         <select name="movb_natureza" class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" >

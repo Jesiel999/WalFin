@@ -31,9 +31,9 @@
 
                     <div>
                         <label class="block text-gray-700 text-sm font-medium font-bold mb-2">Pessoa</label>
-                        <input type="text" id="buscarPessoaUpdate" name="movb_pessoa"
+                        <input type="text" id="buscarPessoaUpdate" name="movb_pessoa_atual"
                             class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <input type="hidden" id="movb_pessoa" name="movb_pessoa">
+                        <input type="hidden" id="movb_pessoa_edit" name="movb_pessoa_edit">
                         <ul id="resultadoUpdate" 
                             style="border:1px solid #ccc; display:none; position:absolute; background:#fff; list-style:none; padding:0; margin:0; width:200px;"></ul>
                     </div>
@@ -88,8 +88,7 @@
                     <div>
                         <label class="block text-sm font-medium">Qt parcelas</label>
                         <select name="movb_parcelas" class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="">Selecione</option>
-                            <option value="1">1x</option>
+                            <option value="">À vista</option>
                             <option value="2">2x</option>
                             <option value="3">3x</option>
                             <option value="4">4x</option>

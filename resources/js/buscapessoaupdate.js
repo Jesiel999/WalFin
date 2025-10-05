@@ -25,7 +25,7 @@ $(document).ready(function() {
         let id = $(this).data("id");
 
         $("#buscarPessoaUpdate").val(nome);
-        $("#movb_pessoa").val(id);
+        $("#movb_pessoa_edit").val(id);
         $("#resultadoUpdate").hide();
     });
 });

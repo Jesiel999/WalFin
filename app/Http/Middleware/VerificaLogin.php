@@ -20,8 +20,7 @@ class VerificaLogin
            
             return $next($request);
         }
-
-        // 3) não autenticado -> redireciona ao login
+        
         return redirect()
             ->route('login')
             ->withErrors(['login' => 'Faça login para acessar.']);

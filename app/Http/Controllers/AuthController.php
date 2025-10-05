@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\EditUsuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Usuario;
-use App\Models\Categoria;
 use App\Models\Movimento;
 use App\Models\Parcela;
-use App\Models\Pessoa;
 use App\Http\Requests\AuthRequest;
+use App\Http\Requests\EditAuthRequest;
 
 class AuthController extends Controller
 {
+    /* VERIFICA SE JÁ TEM SESSION */
     public function showLoginForm(Request $request)
     {
         if ($request->session()->has('usuario')) {
@@ -25,13 +24,13 @@ class AuthController extends Controller
         }
 
         if ($request->cookie('user_id')) {
-
             return redirect()->route('dashboard');
         }
 
         return view('login');
     }
 
+    /* LOGIN DE ACESSO */
     public function login(Request $request)
     {
         $credentials = $request->only('cpf_pj', 'senha');
@@ -52,6 +51,7 @@ class AuthController extends Controller
         return back()->withErrors(['login' => 'CPF ou senha inválidos.']);
     }
 
+    /* LOGOUT */
     public function logout(Request $request)
     {
         Cookie::queue(Cookie::forget('user_name'));
@@ -61,6 +61,7 @@ class AuthController extends Controller
         return redirect('/login');
     }
     
+    /* CADASTRO DE NOVO USUÁRIO */
     public function cadastro(AuthRequest $request)
     {
         $request->validated();
@@ -77,7 +78,7 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Usuário cadastrado com sucesso!');
     }
 
-
+    /* RETORNA DADOS DO USUÁRIO PARA ALTERAR SENHA */
     public function editSenha()
     {
         $userId = Cookie::get('user_id');
@@ -86,6 +87,7 @@ class AuthController extends Controller
         return view('usuarios.alterarSenha', compact('usuario'));
     }
 
+    /* ALTERAR SENHA */
     public function updateSenha(Request $request)
     {
         $userId = Cookie::get('user_id');
@@ -107,44 +109,35 @@ class AuthController extends Controller
         return redirect()->route('dashboard')->with('success', 'Senha alterada com sucesso!');
     }
 
-    public function editUser(Request $request)
+    /* ALTERAR USUÁRIO */
+    public function editUser(EditAuthRequest $request)
     {
         $userId = Cookie::get('user_id');
-        $usuario = Usuario::findOrFail($userId);
 
-        $cpfCnpj   = preg_replace('/\D/', '', $request->input('usua_cpfpj'));
-        $telefone  = preg_replace('/\D/', '', $request->input('usua_telefone'));
+        if (!$userId) {
+            return redirect()->back()->with('error', 'Usuário não identificado.');
+        }
 
-        $request->merge([
+        $usuario = EditUsuario::findOrFail($userId);
+
+        $cpfCnpj   = preg_replace('/\D/', '', $request->usua_cpfpj);
+        $telefone  = preg_replace('/\D/', '', $request->usua_telefone);
+
+        $updated = $usuario->update([
+            'usua_nome'     => $request->usua_nome,
             'usua_cpfpj'    => $cpfCnpj,
             'usua_telefone' => $telefone,
+            'usua_email'    => $request->usua_email,
         ]);
 
-        $request->validate([
-            'usua_nome'     => 'required|string|max:255',
-            'usua_cpfpj'    => 'required|digits_between:11,14|unique:usuario,usua_cpfpj,' . $usuario->usua_codigo . ',usua_codigo',
-            'usua_telefone' => 'required|digits_between:10,11',
-            'usua_email'    => 'required|string|email|max:255|unique:usuario,usua_email,' . $usuario->usua_codigo . ',usua_codigo',
-        ], [
-            'required'       => 'O campo :attribute é obrigatório.',
-            'email'          => 'O campo :attribute deve ser um e-mail válido.',
-            'unique'         => 'O :attribute já está cadastrado.',
-            'digits_between' => 'O campo :attribute deve ter entre :min e :max dígitos.',
-        ]);
-
-        $usuario->update([
-            'usua_nome'     => $request->input('usua_nome'),
-            'usua_cpfpj'    => $cpfCnpj,
-            'usua_telefone' => $telefone,
-            'usua_email'    => $request->input('usua_email'),
-        ]);
+        if (!$updated) {
+            return redirect()->back()->with('info', 'Nenhuma alteração foi detectada.');
+        }
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
 
-
-
-    /* Permissoes */
+    /* PERMISSÕES */
     public function usuario()
     {
         $userId = Cookie::get('user_id');

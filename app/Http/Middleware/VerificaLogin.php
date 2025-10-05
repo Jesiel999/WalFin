@@ -2,27 +2,19 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class VerificaLogin
 {
     public function handle(Request $request, Closure $next)
     {
 
-        if (Session::has('usuario')) {
+       if (Auth::check()) {
             return $next($request);
-        }
-
-        $userId = $request->cookie('user_id');
-        if ($userId) {
-           
-            return $next($request);
-        }
-        
-        return redirect()
-            ->route('login')
-            ->withErrors(['login' => 'Faça login para acessar.']);
+       }
+       return redirect()->route("login")->withErrors(["login" => "Faça login para acessar."]);
     }
+
 }

@@ -23,59 +23,59 @@ Route::get('/recuperarSenha', function (){
     return view ('recuperarSenha');
 })->name('recuperarSenha');
 
-/* Rotas privadas */
-Route::middleware(['verifica.login'])->group(function () {
-
-    /* Dashboard */
-    Route::get('/dashboard', [DashController::class, 'receitaXdespesa'])->name('dashboard');
-
-    /* Extrato */
-    Route::get('/extrato', [MovController::class, 'exibir'])->name('extrato');
-    Route::get('/extratoExportExcel', [ExportExcelController::class, 'export'])->name('export');
-    Route::post('/extrato', [MovController::class, 'store'])->name('cadastroMov');
-    Route::get('/extrato/{movb_codigo}/edit', [MovController::class, 'edit'])->name('editMov');
-    Route::put('/extrato/{movb_codigo}', [MovController::class, 'update'])->name('updateMov');
-    Route::delete('/extrato/{movb_codigo}', [MovController::class, 'destroy'])->name('deleteMov');
+Route::middleware(['web'])->group(function () {    
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/cadastro', [AuthController::class, 'cadastro'])->name('cadastro');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    Route::get('/parcelamento/{movb_codigo}', [MovController::class, 'parcelamento'])->name('parcelamento');
-    Route::put('/parcelamento/{movb_codigo}/{movb_codigomov}', [ParController::class, 'update'])->name('updatePar');
+    /* Rotas privadas */
+    Route::middleware(['verifica.login'])->group(function () {
 
-    /* Pessoa */
-    Route::get('/pessoa', [PessoaController::class, 'exibir'])->name('pessoa');    
-    Route::post('/pessoa', [PessoaController::class, 'store'])->name('pessoa.store');
-    Route::put('/pessoa/{pes_codigo}', [PessoaController::class,'update'])->name('updatePes');
-    Route::delete('/pessoa/{pes_codigo}', [PessoaController::class, 'destroy'])->name('deletePes');
+        /* Dashboard */
+        Route::get('/dashboard', [DashController::class, 'receitaXdespesa'])->name('dashboard');
 
-    /* Buscar Pessoa */
-    Route::get('/pessoa/buscar ', [PessoaController::class,'buscar']);
-    Route::get('/extrato/{movb_pessoa}/buscar ', [PessoaController::class,'buscarUpdate']);
+        /* Extrato */
+        Route::get('/extrato', [MovController::class, 'exibir'])->name('extrato');
+        Route::get('/extratoExportExcel', [ExportExcelController::class, 'export'])->name('export');
+        Route::post('/extrato', [MovController::class, 'store'])->name('cadastroMov');
+        Route::get('/extrato/{movb_codigo}/edit', [MovController::class, 'edit'])->name('editMov');
+        Route::put('/extrato/{movb_codigo}', [MovController::class, 'update'])->name('updateMov');
+        Route::delete('/extrato/{movb_codigo}', [MovController::class, 'destroy'])->name('deleteMov');
+        
+        Route::get('/parcelamento/{movb_codigo}', [MovController::class, 'parcelamento'])->name('parcelamento');
+        Route::put('/parcelamento/{movb_codigo}/{movb_codigomov}', [ParController::class, 'update'])->name('updatePar');
 
-    /* Categorias */
-    Route::get('/categorias', [CatController::class, 'exibir'])->name('categorias');
-    Route::post('/categorias', [CatController::class, 'store'])->name('categorias.store');
-    Route::put('/categorias/{copa_codigo}', [CatController::class, 'update'])->name('updateCondP');
-    Route::delete('/categorias/{copa_codigo}', [CatController::class, 'destroy'])->name('deleteCondP');
+        /* Pessoa */
+        Route::get('/pessoa', [PessoaController::class, 'exibir'])->name('pessoa');    
+        Route::post('/pessoa', [PessoaController::class, 'store'])->name('pessoa.store');
+        Route::put('/pessoa/{pes_codigo}', [PessoaController::class,'update'])->name('updatePes');
+        Route::delete('/pessoa/{pes_codigo}', [PessoaController::class, 'destroy'])->name('deletePes');
 
-    /* Condições de Pagamento */
-    Route::get('/condicoesPagamento', [CondPagamentoController::class, 'exibir'])->name('condicoesPagamento');
-    Route::post('/condicoesPagamento', [CondPagamentoController::class, 'store'])->name('CondPagamento.store');
-    Route::put('/condicoesPagamento/{copa_codigo}', [CondPagamentoController::class, 'update'])->name('updateCondP');
-    Route::delete('/condicoesPagamento/{copa_codigo}', [CondPagamentoController::class, 'destroy'])->name('deleteCondP');
+        /* Buscar Pessoa */
+        Route::get('/pessoa/buscar ', [PessoaController::class,'buscar']);
+        Route::get('/extrato/{movb_pessoa}/buscar ', [PessoaController::class,'buscarUpdate']);
 
-    /* Usuário */
-    Route::get('/usuario', [AuthController::class, 'usuario']);
-    Route::get('/usuario/alterar-senha', [AuthController::class, 'editSenha'])->name('usuario.editSenha');
-    Route::put('/usuario/alterar-senha', [AuthController::class, 'updateSenha'])->name('usuario.updateSenha');
-    Route::put('/usuario/editar-usuario', [AuthController::class, 'editUser'])->name('usuario.edit');
+        /* Categorias */
+        Route::get('/categorias', [CatController::class, 'exibir'])->name('categorias');
+        Route::post('/categorias', [CatController::class, 'store'])->name('categorias.store');
+        Route::put('/categorias/{copa_codigo}', [CatController::class, 'update'])->name('updateCondP');
+        Route::delete('/categorias/{copa_codigo}', [CatController::class, 'destroy'])->name('deleteCondP');
 
-    /* Investimento */
-    Route::get('/investimento', [InvestController::class, 'exibir'])->name('investimento');
+        /* Condições de Pagamento */
+        Route::get('/condicoesPagamento', [CondPagamentoController::class, 'exibir'])->name('condicoesPagamento');
+        Route::post('/condicoesPagamento', [CondPagamentoController::class, 'store'])->name('CondPagamento.store');
+        Route::put('/condicoesPagamento/{copa_codigo}', [CondPagamentoController::class, 'update'])->name('updateCondP');
+        Route::delete('/condicoesPagamento/{copa_codigo}', [CondPagamentoController::class, 'destroy'])->name('deleteCondP');
+
+        /* Usuário */
+        Route::get('/usuario', [AuthController::class, 'usuario']);
+        Route::get('/usuario/alterar-senha', [AuthController::class, 'editSenha'])->name('usuario.editSenha');
+        Route::put('/usuario/alterar-senha', [AuthController::class, 'updateSenha'])->name('usuario.updateSenha');
+        Route::put('/usuario/editar-usuario', [AuthController::class, 'editUser'])->name('usuario.edit');
+
+        /* Investimento */
+        Route::get('/investimento', [InvestController::class, 'exibir'])->name('investimento');
+    });
 });
-
-/* Rotas públicas */
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/cadastro', [AuthController::class, 'cadastro'])->name('cadastro');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
 

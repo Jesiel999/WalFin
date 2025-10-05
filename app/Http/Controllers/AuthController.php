@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\EditUsuario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Session;
 use App\Models\Usuario;
 use App\Models\Movimento;
 use App\Models\Parcela;
@@ -17,48 +16,45 @@ use App\Http\Requests\EditAuthRequest;
 class AuthController extends Controller
 {
     /* VERIFICA SE JÁ TEM SESSION */
-    public function showLoginForm(Request $request)
+    public function showLoginForm()
     {
-        if ($request->session()->has('usuario')) {
-            return redirect()->route('dashboard');
-        }
-
-        if ($request->cookie('user_id')) {
+        if (Auth::check()) {
             return redirect()->route('dashboard');
         }
 
         return view('login');
     }
 
+
     /* LOGIN DE ACESSO */
     public function login(Request $request)
     {
-        $credentials = $request->only('cpf_pj', 'senha');
+        $credentials = $request->validate([
+            'cpf_pj'   => ['required'],
+            'senha' => ['required'],
+        ]);
 
-        $user = DB::table('usuario')
-            ->where('usua_cpfpj', $credentials['cpf_pj'])
-            ->first();
-
-        if ($user && Hash::check($credentials['senha'], $user->usua_senha)) {
-           
-            Cookie::queue('user_name', $user->usua_nome, 43200);
-            Cookie::queue('user_id', $user->usua_codigo, 43200);
-
-            Session::put('usuario', $user);
-            return redirect('/dashboard');
+        if (Auth::attempt([
+            'usua_cpfpj' => $credentials['cpf_pj'], 
+            'password'   => $credentials['senha'],
+        ])) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
         }
 
-        return back()->withErrors(['login' => 'CPF ou senha inválidos.']);
+        return back()->withErrors([
+            'login' => 'CPF ou senha inválidos.',
+        ]);
     }
 
     /* LOGOUT */
     public function logout(Request $request)
     {
-        Cookie::queue(Cookie::forget('user_name'));
-        Cookie::queue(Cookie::forget('user_id'));
-        Session::forget('usuario');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->intended('login');
     }
     
     /* CADASTRO DE NOVO USUÁRIO */
@@ -81,8 +77,7 @@ class AuthController extends Controller
     /* RETORNA DADOS DO USUÁRIO PARA ALTERAR SENHA */
     public function editSenha()
     {
-        $userId = Cookie::get('user_id');
-        $usuario = Usuario::findOrFail($userId);
+        $usuario = Auth::user();
 
         return view('usuarios.alterarSenha', compact('usuario'));
     }
@@ -90,12 +85,12 @@ class AuthController extends Controller
     /* ALTERAR SENHA */
     public function updateSenha(Request $request)
     {
-        $userId = Cookie::get('user_id');
-        $usuario = Usuario::findOrFail($userId);
+
+        $usuario = Auth::user();
 
         $request->validate([
             'senha_atual' => 'required',
-            'nova_senha' => 'required|min:6|confirmed', 
+            'nova_senha'  => 'required|min:6|confirmed', 
         ]);
 
 
@@ -109,10 +104,11 @@ class AuthController extends Controller
         return redirect()->route('dashboard')->with('success', 'Senha alterada com sucesso!');
     }
 
+
     /* ALTERAR USUÁRIO */
     public function editUser(EditAuthRequest $request)
     {
-        $userId = Cookie::get('user_id');
+        $userId = Auth::id();
 
         if (!$userId) {
             return redirect()->back()->with('error', 'Usuário não identificado.');
@@ -140,8 +136,8 @@ class AuthController extends Controller
     /* PERMISSÕES */
     public function usuario()
     {
-        $userId = Cookie::get('user_id');
-        $userName = Cookie::get('user_name');
+        $userId = Auth::id();
+        $userName = Auth::user()->usua_nome;
 
         $usuario = Usuario::where('usua_codigo', $userId)->first();
 

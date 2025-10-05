@@ -159,9 +159,6 @@
                 <a   href="{{ url('/extratoExportExcel') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition flex items-center mt-4">
                     <i class="fas fa-file-export mr-2"></i> Export Excel
                 </a> 
-                <button   id="add-import-btn" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition flex items-center mt-4">
-                    <i class="fas fa-file-import mr-2"></i> Import Excel
-                </button> 
             </div>
             <div class="mt-4 flex items-center justify-between">
                 <div>

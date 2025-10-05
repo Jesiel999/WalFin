@@ -15,5 +15,20 @@
                 Importar
             </button>
         </form>
+        <table class="gap-4">
+            <title>Esse formato abaixo é o necessário para importar uma planilha de dados</title>
+            <td>Valor Total</td>
+            <td>Valor Título</td>
+            <td>Situação</td>
+            <td>Categoria</td>
+            <td>CPF/PJ</td>
+            <td>Pessoa</td>
+            <td>Observação</td>
+            <td>Data de vencimento</td>
+            <td>Data de baixa</td>
+            <td>Data de entrada e saída</td>
+            <td>Forma de pamento</td>
+            <td>Natureza</td>
+        </table>
     </div>
 </div>

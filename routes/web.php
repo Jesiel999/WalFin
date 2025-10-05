@@ -32,7 +32,6 @@ Route::middleware(['verifica.login'])->group(function () {
     /* Extrato */
     Route::get('/extrato', [MovController::class, 'exibir'])->name('extrato');
     Route::get('/extratoExportExcel', [ExportExcelController::class, 'export'])->name('export');
-    Route::post('/extratoImportExcel', [ExportExcelController::class, 'import'])->name('export');
     Route::post('/extrato', [MovController::class, 'store'])->name('cadastroMov');
     Route::get('/extrato/{movb_codigo}/edit', [MovController::class, 'edit'])->name('editMov');
     Route::put('/extrato/{movb_codigo}', [MovController::class, 'update'])->name('updateMov');

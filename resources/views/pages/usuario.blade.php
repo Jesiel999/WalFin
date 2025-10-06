@@ -142,41 +142,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-8">
-                    <h3 class="text-lg font-medium text-gray-800 mb-4">Metas Financeiras</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium text-gray-700">Reserva de Emergência</span>
-                                <span class="text-sm font-medium text-gray-700">75%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">R$ 15.000 de R$ 20.000</p>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium text-gray-700">Viagem Internacional</span>
-                                <span class="text-sm font-medium text-gray-700">32%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                <div class="bg-green-600 h-2.5 rounded-full" style="width: 32%"></div>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">R$ 6.400 de R$ 20.000</p>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium text-gray-700">Entrada do Apartamento</span>
-                                <span class="text-sm font-medium text-gray-700">18%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                <div class="bg-purple-600 h-2.5 rounded-full" style="width: 18%"></div>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">R$ 9.000 de R$ 50.000</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

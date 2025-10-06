@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('usua_nome');
             $table->string('usua_senha');
             $table->string('usua_cpfpj', 20);
+            $table->string('usua_email');
             $table->timestamps(); 
         });
     }

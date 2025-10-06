@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cat_codclie')->nullable();
             $table->string('cat_nome', 45)->nullable();
             $table->string('cat_icone', 20)->nullable();
+            $table->string('cat_status',0)->nullable();
         
         }); 
     }

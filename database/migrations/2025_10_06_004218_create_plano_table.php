@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cond_pagamento', function (Blueprint $table) {
-            $table->integer('copa_codclie')->nullable();
-            $table->increments('copa_codigo');
-            $table->string('copa_nome', 45);
-            $table->string('copa_desc');
-            $table->boolean('copa_status')->default(true); 
+        Schema::create('plano', function (Blueprint $table) {
+            $table->increments('plan_codigo');
+            $table->string('plan_nome');
+            $table->decimal('plan_valor', 10, 2);
+            $table->integer('plan_duracao')->comment('em dias');
+            $table->text('plan_descricao');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cond_pagamento');
+        Schema::dropIfExists('plano');
     }
 };

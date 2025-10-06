@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('pessoa', function (Blueprint $table) {
             $table->increments('pes_codigo');
-            $table->integer('pes_codclie');
+            $table->increments('pes_codclie');
             $table->string('pes_nome');
             $table->string('pes_cpfpj', 20);
             $table->string('pes_email');

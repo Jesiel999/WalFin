@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invest', function (Blueprint $table) {
-            $table->increments('inv_id');
-            $table->string('inv_codigo', 45)->nullable();
+            $table->increments('inv_codigo', 45)->nullable();
             $table->string('inv_nome', 100)->nullable();
             $table->enum('inv_tipo', ['ACAO', 'FII', 'CRIPTO', 'RENDA_FIXA', 'ETF', 'OUTRO'])->nullable();
             $table->string('inv_bolsa', 50)->nullable();

@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('mov_bancario', function (Blueprint $table) {
             $table->integer('movb_codclie')->nullable();
-            $table->string('movb_cliente', 45)->nullable();
-            $table->integer('movb_codigo', true);
+            $table->increments('movb_codigo', true);
             $table->decimal('movb_valortotal', 11, 0);
             $table->decimal('movb_valorliquido', 11, 0);
             $table->string('movb_situacao', 45);
-            $table->string('movb_categoria_id', 10)->nullable();
-            $table->string('movb_categoria', 45)->nullable();
-            $table->integer('movb_cpfpj')->nullable();
+            $table->string('movb_categoria', 10);
             $table->string('movb_pessoa', 45)->nullable();
             $table->string('movb_observ')->nullable();
             $table->date('movb_datavenc');

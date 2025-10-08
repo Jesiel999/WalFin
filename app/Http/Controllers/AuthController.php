@@ -24,7 +24,6 @@ class AuthController extends Controller
         return view('login');
     }
 
-
     /* LOGIN DE ACESSO */
     public function login(Request $request)
     {

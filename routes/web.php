@@ -10,6 +10,8 @@ use App\Http\Controllers\DashController;
 use App\Http\Controllers\ParController;
 use App\Http\Controllers\ExportExcelController;
 use App\Http\Controllers\InvestController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AssinaturaController;
 
 Route::get('/login', function () {
     return view('login');
@@ -23,15 +25,20 @@ Route::get('/recuperarSenha', function (){
     return view ('recuperarSenha');
 })->name('recuperarSenha');
 
-Route::middleware(['web'])->group(function () {    
+Route::middleware(['web'])->group(function () {  
+    Route::get("/", [HomeController::class,"index"])->name("home");  
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/cadastro', [AuthController::class, 'cadastro'])->name('cadastro');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    /* Rotas privadas */
+    /* Rotas de exigir login para assinar */
     Route::middleware(['verifica.login'])->group(function () {
+        Route::post('/assinar', [AssinaturaController::class, 'assinar'])->name('assinar');
+    });
 
+    // Rotas privadas (precisam de login + assinatura ativa)
+    Route::middleware(['verifica.login', 'verifica.assinatura'])->group(function () {
         /* Dashboard */
         Route::get('/dashboard', [DashController::class, 'receitaXdespesa'])->name('dashboard');
 

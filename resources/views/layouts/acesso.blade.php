@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="min-h-screen flex flex-col bg-black bg-opacity-60">
-    @include('components.header')
 
     <main class="flex-grow flex items-center justify-center p-4">
         @yield('content')

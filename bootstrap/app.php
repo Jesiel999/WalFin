@@ -14,9 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         
         $middleware->alias([
             'verifica.login' => \App\Http\Middleware\VerificaLogin::class,
+            'verifica.assinatura' => \App\Http\Middleware\VerificaLogin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        
     })
     ->create();

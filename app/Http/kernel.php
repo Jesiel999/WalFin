@@ -27,8 +27,8 @@ class Kernel extends HttpKernel
 
 
     protected $routeMiddleware = [
-
         'verifica.login' => \App\Http\Middleware\VerificaLogin::class,
+        'verifica.assinatura' => \App\Http\Middleware\VerificaAssinatura::class,
     ];
 }
 

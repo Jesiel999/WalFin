@@ -1,8 +1,5 @@
 @extends('layouts.acesso')
 
-@section('header')
-@endsection
-
 @if (session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
         {{ session('success') }}
@@ -10,11 +7,10 @@
 @endif
 
 @section('content')
-
 <div class="bg-white bg-opacity-90 backdrop-blur-md shadow-xl rounded-2xl p-8 w-full max-w-md">
-    <a href="{{ route('cadastro') }}" 
+      <a href="{{ route('home') }}" 
         class="absolute top-4 right-4 bg-gray-400 hover:bg-gray-500 text-white px-3 py-1.5 rounded shadow-lg transition-transform duration-200 hover:scale-105">
-        Cadastro de Usuário
+        ✕
     </a>
 
     <form method="post" action="{{ route('login') }}" class="space-y-5">
@@ -42,11 +38,18 @@
         <div class="mt-6 text-center">
             <input type="submit" name="Login" value="Entrar"
                 class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition">
-            <a href="{{ route('recuperarSenha') }}" class="w-full text-sm text-blue-600 hover:underline mt-2 inline-block">
-                Esqueceu sua senha?
-            </a>
         </div>
     </form>
+    <div class="text-center mt-5">
+        <a href="{{ route('cadastro') }}" 
+            class="w-full bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded shadow-lg transition-transform duration-200 hover:scale-105">
+            Cadastro de Usuário
+        </a>
+        <a href="{{ route('recuperarSenha') }}" class="w-full text-sm text-blue-600 hover:underline mt-2 inline-block">
+            Esqueceu sua senha?
+        </a>
+    </div>
+    
 </div>
 @endsection
 

@@ -34,11 +34,16 @@ Route::middleware(['web'])->group(function () {
     
     /* Rotas de exigir login para assinar */
     Route::middleware(['verifica.login'])->group(function () {
-        Route::post('/assinar', [AssinaturaController::class, 'assinar'])->name('assinar');
+        // Página para o usuário escolher o plano
+        Route::get('/assinar', [AssinaturaController::class, 'index'])->name('assinar');
+
+        // POST para confirmar assinatura
+        Route::post('/assinar', [AssinaturaController::class, 'assinar'])->name('assinar.post');
+
     });
 
     // Rotas privadas (precisam de login + assinatura ativa)
-    Route::middleware(['verifica.login', 'verifica.assinatura'])->group(function () {
+    Route::middleware(['verifica.login'])->group(function () {
         /* Dashboard */
         Route::get('/dashboard', [DashController::class, 'receitaXdespesa'])->name('dashboard');
 

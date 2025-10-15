@@ -11,11 +11,6 @@ class VerificaAssinatura
 {
     public function handle(Request $request, Closure $next)
     {
-        // Se o usuário não estiver logado
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Você precisa estar logado para acessar esta área.');
-        }
-
         $userId = Auth::id();
 
         // Busca assinatura ativa

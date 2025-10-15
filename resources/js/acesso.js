@@ -1,3 +1,4 @@
+import '../css/app.css';
 document.getElementById("cpf_pj").addEventListener("input", function(e) {
     let v = e.target.value.replace(/\D/g, "");
     if (v.length > 14) v = v.slice(0, 14);

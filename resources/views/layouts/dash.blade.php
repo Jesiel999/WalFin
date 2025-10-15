@@ -2,23 +2,16 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Meu App')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @yield('extra-scripts')
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/icon.png') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @media(min-width: 768px) {
-            .md\:grid-cols-3 {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .lg\:grid-cols-2 {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="flex">
+<body class="flex overflow-x-hidden">
     <aside id="sidebar"  class="sidebar bg-indigo-700 w-64 lg:w-16 text-white z-40 
          transition-all duration-300 flex flex-col h-screen fixed 
          top-0 left-0 uppercase tracking-wider 
@@ -27,11 +20,11 @@
     </aside>
 
 
-    <div id="mainContent" class="ml-0 lg:ml-16 flex-1 flex flex-col min-h-screen">
+    <div id="mainContent" class="ml-0 lg:ml-16 flex-1 flex flex-col">
 
         @include('components.header')
 
-        <main class="content flex-1 p-6 bg-gray-100">
+        <main class="content flex-1 p-6">
             @yield('content')
         </main>
     </div>

@@ -17,8 +17,8 @@
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold">Transações</h2>
             <button id="add-transacoes-btn" 
-                class="bg-indigo-600 text-white px-8 py-6 text-lg lg:px-3 lg:py-2 lg:text-sm rounded-lg hover:bg-indigo-700 transition flex items-center font-bold">
-                <i class="fas fa-plus mr-2"></i> Nova Transação
+                class="bg-indigo-600 text-white px-6 py-4 text-lg lg:px-3 lg:py-2 lg:text-sm rounded-lg hover:bg-indigo-700 transition flex items-center font-bold">
+                <i class="fas fa-plus mr-2 ml-2"></i> Nova Transação
             </button> 
         </div>
   
@@ -153,22 +153,21 @@
                     @endforelse
                 </tbody>
             </table>
-
-            <div class="mt-4 flex items-center justify-end gap-4">
-                <a   href="{{ url('/extratoExportExcel') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition flex items-center mt-4">
-                    <i class="fas fa-file-export mr-2"></i> Export Excel
+            <div class="flex flex-col sm:flex-row items-center justify-between mt-4 gap-4">
+                <a href="{{ url('/extratoExportExcel') }}" 
+                class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center">
+                    <i class="fas fa-file-export mr-2"></i> Exportar Excel
                 </a> 
-            </div>
-            <div class="mt-4 flex items-center justify-between">
-                <div>
-                    Mostrando {{ $movimentos->firstItem() }} até {{ $movimentos->lastItem() }}
-                    de {{ $movimentos->total() }} movimentações
+
+                <div class="text-sm text-gray-600">
+                    Mostrando {{ $movimentos->firstItem() }} até {{ $movimentos->lastItem() }} de {{ $movimentos->total() }} movimentações
                 </div>
 
                 <div>
                     {{ $movimentos->links() }}
                 </div>
             </div>
+            
         </div>
         @include ('pages.modals.extrato.add')
         @include ('pages.modals.extrato.edit')

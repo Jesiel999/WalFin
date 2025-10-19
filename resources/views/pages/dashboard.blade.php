@@ -6,7 +6,14 @@
 @endsection
 
 @section('content')
-    <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+        <select>
+            <option>Mês Atual</option>
+            <option>Período 6 meses</option>
+            <option>Período 12 meses</option>
+        </select>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="card p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all">
             <div class="flex items-center justify-between mb-2">
@@ -58,11 +65,6 @@
         <div class="card p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-semibold text-lg">Receitas vs Despesas Pagos</h3>
-                <select>
-                    <option>Últimos 6 meses</option>
-                    <option>Este ano</option>
-                    <option>Ano passado</option>
-                </select>
             </div>
             <div class="h-64">
                 <canvas id="DespesasXReceitaBaixado"></canvas>
@@ -72,11 +74,6 @@
         <div class="card p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-semibold text-lg">Despesas por Categoria Pagos</h3>
-                <select>
-                    <option>Este mês</option>
-                    <option>Mês passado</option>
-                    <option>Últimos 3 meses</option>
-                </select>
             </div>
             <div class="h-64">
                 <canvas id="DespesasBaixadoporCategoria"></canvas>
@@ -88,11 +85,6 @@
         <div class="card p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-semibold text-lg">Receitas vs Despesas Pendentes</h3>
-                <select>
-                    <option>Últimos 6 meses</option>
-                    <option>Este ano</option>
-                    <option>Ano passado</option>
-                </select>
             </div>
             <div class="h-64">
                 <canvas id="DespesasXReceitaPendente"></canvas>
@@ -102,11 +94,6 @@
         <div class="card p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-semibold text-lg">Evolução do Saldo Acumulado</h3>
-                <select>
-                    <option>Últimos 6 meses</option>
-                    <option>Mês passado</option>
-                    <option>Últimos 3 meses</option>
-                </select>
             </div>
             <div class="h-64">
                 <canvas id="DespesasXReceitaEvolucao"></canvas>

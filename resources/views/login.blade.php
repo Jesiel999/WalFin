@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="bg-white bg-opacity-90 backdrop-blur-md shadow-xl rounded-2xl p-8 w-full max-w-md">
-      <a href="{{ route('home') }}" 
+    <a href="{{ route('home') }}" 
         class="absolute top-4 right-4 bg-gray-400 hover:bg-gray-500 text-white px-3 py-1.5 rounded shadow-lg transition-transform duration-200 hover:scale-105">
         ✕
     </a>

@@ -11,11 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="flex overflow-x-hidden">
+<body class="overflow-x-hidden">
     <aside id="sidebar"  class="sidebar bg-indigo-700 w-64 lg:w-16 text-white z-40 
-        transition-transform duration-300 flex flex-col h-screen fixed 
-        top-0 left-0 uppercase tracking-wider 
-        -translate-x-full lg:translate-x-0">
+         transition-all duration-300 flex flex-col h-screen fixed 
+         top-0 left-0 uppercase tracking-wider 
+         -translate-x-full lg:translate-x-0">
     @include('components.sidebar')
     </aside>
 

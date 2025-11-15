@@ -21,8 +21,7 @@
             <div class="mb-4">
                 <label for="pes_cpfpj" class="block text-gray-700 text-sm font-bold mb-2">CPF/CNPJ</label>
                 <input type="text" name="pes_cpfpj" id="pes_cpfpj" value="{{ old('pes_cpfpj') }}"
-                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    required>
+                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 @error('pes_cpfpj')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -31,8 +30,7 @@
             <div class="mb-4">
                 <label for="pes_email" class="block text-gray-700 text-sm font-bold mb-2">E-mail</label>
                 <input type="text" name="pes_email" id="pes_email" value="{{ old('pes_email') }}"
-                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    required>
+                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 @error('pes_email')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -41,8 +39,7 @@
             <div class="mb-4">
                 <label for="pes_telefone" class="block text-gray-700 text-sm font-bold mb-2">Telefone</label>
                 <input type="text" name="pes_telefone" id="pes_telefone" value="{{ old('pes_telefone') }}"
-                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    required>
+                    class="border rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 @error('pes_telefone')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror

@@ -17,7 +17,7 @@ class PessoaRequest extends FormRequest
         return [
             "pes_codclie"=> "nullable|integer",
             "pes_nome"=> "required|string",
-            "pes_cpfpj"=> "required|numeric",
+            "pes_cpfpj"=> "nullable|numeric",
             "pes_email"=> "nullable|email",
             "pes_telefone"=> "nullable|integer|digits_between:10,11",
             "pes_observacao"=> "nullable|string", 
